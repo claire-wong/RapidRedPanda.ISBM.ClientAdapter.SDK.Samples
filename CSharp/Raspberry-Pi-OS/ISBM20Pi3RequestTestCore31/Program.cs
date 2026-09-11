@@ -16,6 +16,7 @@
 
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using RapidRedPanda.ISBM.ClientAdapter;
 using RapidRedPanda.ISBM.ClientAdapter.ResponseType;
 using Newtonsoft.Json;
@@ -40,7 +41,7 @@ namespace ISBM20Pi3RequestTestCore31
 
         static ProviderRequestService _myProviderRequestService = new ProviderRequestService();
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             SetConfigurations();
             GetBODTemplate();
@@ -55,9 +56,9 @@ namespace ISBM20Pi3RequestTestCore31
             if (key == "Enter")
             {
                 //Calling ISBM Adapter method
-                _myProviderRequestService.Credentials.Username = _username;
-                _myProviderRequestService.Credentials.Password = _password;
-                OpenProviderRequestSessionResponse myProviderRequestServiceResponse = _myProviderRequestService.OpenProviderRequestSession(_hostName, _channelId, _topic);
+                _myProviderRequestService.Credential.Username = _username;
+                _myProviderRequestService.Credential.Password = _password;
+                OpenProviderRequestSessionResponse myProviderRequestServiceResponse = await _myProviderRequestService.OpenProviderRequestSessionAsync(_hostName, _channelId, _topic, CancellationToken.None);
 
                 //ISBM Adapter Response
                 if (myProviderRequestServiceResponse.StatusCode == 201)
@@ -89,7 +90,7 @@ namespace ISBM20Pi3RequestTestCore31
                 if (key == "Enter")
                 {
                     //Calling ISBM Adaper method
-                    myReadRequestResponse = _myProviderRequestService.ReadRequest(_hostName, _sessionId);
+                    myReadRequestResponse = await _myProviderRequestService.ReadRequestAsync(_hostName, _sessionId, CancellationToken.None);
 
                     //ISBM Adapter Response
                     if (myReadRequestResponse.StatusCode == 200)
@@ -116,7 +117,7 @@ namespace ISBM20Pi3RequestTestCore31
             if (key == "Enter")
             {
                 //Calling ISBM Adapter method
-                PostResponseResponse myPostResponseResponse = _myProviderRequestService.PostResponse(_hostName, _sessionId, _requestMessageId, _bodTemplate);
+                PostResponseResponse myPostResponseResponse = await _myProviderRequestService.PostResponseAsync(_hostName, _sessionId, _requestMessageId, _bodTemplate, CancellationToken.None);
 
                 //ISBM Adapter Response
                 if (myPostResponseResponse.StatusCode == 201)
@@ -142,7 +143,7 @@ namespace ISBM20Pi3RequestTestCore31
             if (key == "Enter")
             {
                 //Calling ISBM Adaper method
-                RemoveRequestResponse myRemoveRequestResponse = _myProviderRequestService.RemoveRequest(_hostName, _sessionId);
+                RemoveRequestResponse myRemoveRequestResponse = await _myProviderRequestService.RemoveRequestAsync(_hostName, _sessionId, CancellationToken.None);
 
                 //ISBM Adapter Response
                 if (myRemoveRequestResponse.StatusCode == 204)
@@ -164,7 +165,7 @@ namespace ISBM20Pi3RequestTestCore31
             if (key == "Enter")
             {
                 //Calling ISBM Adaper method
-                CloseProviderRequestSessionResponse myCloseProviderRequestSessionResponse = _myProviderRequestService.CloseProviderRequestSession(_hostName, _sessionId);
+                CloseProviderRequestSessionResponse myCloseProviderRequestSessionResponse = await _myProviderRequestService.CloseProviderRequestSessionAsync(_hostName, _sessionId, CancellationToken.None);
 
                 //ISBM Adapter Response
                 if (myCloseProviderRequestSessionResponse.StatusCode == 204)

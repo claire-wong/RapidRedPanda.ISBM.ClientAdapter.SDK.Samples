@@ -18,6 +18,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
@@ -43,13 +44,13 @@ namespace ISBM21ProviderPublicationTestCSharp
             textBoxBOD.Text = File.ReadAllText(bodFilePath);
         }
 
-        private void buttonOpenSession_Click(object sender, EventArgs e)
+        private async void buttonOpenSession_Click(object sender, EventArgs e)
         {
             //Calling ISBM Adapter method
             myProviderPublicationService.Credential.Username = textBoxUserName.Text;
             myProviderPublicationService.Credential.Password = textBoxPassword.Text;
             
-            OpenPublicationSessionResponse myOpenPublicationSessionResponse = myProviderPublicationService.OpenPublicationSession(textBoxHostName.Text, textBoxChannelId.Text);
+            OpenPublicationSessionResponse myOpenPublicationSessionResponse = await myProviderPublicationService.OpenPublicationSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, CancellationToken.None);
 
 
             //ISBM Adapter Response
@@ -60,10 +61,10 @@ namespace ISBM21ProviderPublicationTestCSharp
             textBoxSessionId.Text = myOpenPublicationSessionResponse.SessionID;
         }
 
-        private void buttonCloseSession_Click(object sender, EventArgs e)
+        private async void buttonCloseSession_Click(object sender, EventArgs e)
         {
             //Calling ISBM Adapter method
-            ClosePublicationSessionResponse myClosePublicationSessionResponse = myProviderPublicationService.ClosePublicationSession(textBoxHostName.Text, textBoxSessionId.Text);
+            ClosePublicationSessionResponse myClosePublicationSessionResponse = await myProviderPublicationService.ClosePublicationSessionAsync(textBoxHostName.Text, textBoxSessionId.Text, CancellationToken.None);
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myClosePublicationSessionResponse.StatusCode.ToString();
@@ -71,10 +72,14 @@ namespace ISBM21ProviderPublicationTestCSharp
             textBoxResponse.Text = myClosePublicationSessionResponse.ISBMHTTPResponse;
         }
 
-        private void buttonPushlish_Click(object sender, EventArgs e)
+        private async void buttonPushlish_Click(object sender, EventArgs e)
         {
+
+            PostPublicationOptions myPostPublicationOptions = new PostPublicationOptions();
+            myPostPublicationOptions.Expiry = "P2D";
+
             //Calling ISBM Adapter method 
-            PostPublicationResponse myPostPublicationResponse = myProviderPublicationService.PostPublication(textBoxHostName.Text, textBoxSessionId.Text, textBoxTopic.Text, textBoxBOD.Text);
+            PostPublicationResponse myPostPublicationResponse = await myProviderPublicationService.PostPublicationAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxTopic.Text, textBoxBOD.Text, myPostPublicationOptions, CancellationToken.None);
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myPostPublicationResponse.StatusCode.ToString();
@@ -84,9 +89,9 @@ namespace ISBM21ProviderPublicationTestCSharp
             textBoxMessageId.Text = myPostPublicationResponse.MessageID;
         }
 
-        private void buttonExpire_Click(object sender, EventArgs e)
+        private async void buttonExpire_Click(object sender, EventArgs e)
         {
-            ExpirePublicationResponse myExpirePublicationResponse = myProviderPublicationService.ExpirePublication(textBoxHostName.Text, textBoxSessionId.Text, textBoxMessageId.Text);
+            ExpirePublicationResponse myExpirePublicationResponse = await myProviderPublicationService.ExpirePublicationAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxMessageId.Text, CancellationToken.None);
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myExpirePublicationResponse.StatusCode.ToString();

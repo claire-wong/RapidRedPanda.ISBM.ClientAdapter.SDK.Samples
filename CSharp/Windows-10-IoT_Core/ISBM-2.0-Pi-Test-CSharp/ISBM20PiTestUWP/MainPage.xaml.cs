@@ -29,6 +29,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
+using System.Threading;
 using Windows.Storage;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -80,7 +81,7 @@ namespace ISBM20Pi3TestCSharp
             await GetBODTemplate();
 
             //Open an Provider Publication Session
-            OpenPublicationSessionResponse myOpenPublicationSessionResponse = _myProviderPublicationService.OpenPublicationSession(_hostName, _channelId);
+            OpenPublicationSessionResponse myOpenPublicationSessionResponse = await _myProviderPublicationService.OpenPublicationSessionAsync(_hostName, _channelId, CancellationToken.None);
 
             if (myOpenPublicationSessionResponse.StatusCode == 201)
             {
@@ -94,11 +95,11 @@ namespace ISBM20Pi3TestCSharp
             _timerPublish.Start();
         }
 
-        private void TimerPublish_Tick(object sender, object e)
+        private async void TimerPublish_Tick(object sender, object e)
         {
             _timerPublish.Stop();
 
-            PublishBOD();
+            await PublishBOD();
 
             _timerPublish.Start();
         }
@@ -137,14 +138,14 @@ namespace ISBM20Pi3TestCSharp
             _bodTemplate = JsonFromFile;
         }
 
-        private void PublishBOD()
+        private async Task PublishBOD()
         {
 
             //Create new BOD message from SyncMeasurements use case template
             string bodMessage = FillBODFields(_bodTemplate);
 
             //Post Publication - BOD message
-            PostPublicationResponse myPostPublicationResponse = _myProviderPublicationService.PostPublication(_hostName, _sessionId, _topic, bodMessage);
+            PostPublicationResponse myPostPublicationResponse = await _myProviderPublicationService.PostPublicationAsync(_hostName, _sessionId, _topic, bodMessage, CancellationToken.None);
 
             string MessageId = "";
             if (myPostPublicationResponse.StatusCode == 201)

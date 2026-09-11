@@ -9,15 +9,15 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.0.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Configs.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Packages\ISBM20ClientAdapter\netcoreapp3.1\ISBM20ClientAdapterCore31.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Packages\ISBM20ClientAdapter\netcoreapp3.1\Newtonsoft.Json.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using RapidRedPanda.ISBM.ClientAdapter;
 using RapidRedPanda.ISBM.ClientAdapter.EndpointOptions;
 
@@ -98,14 +103,15 @@ internal static class Program
 
     private static async Task ValidateLiveAsync(RunnerOptions options, ValidationReport report)
     {
-        if (!string.Equals(options.Scenario, "all", StringComparison.OrdinalIgnoreCase))
+        bool channelOnly = string.Equals(options.Scenario, "channel", StringComparison.OrdinalIgnoreCase);
+        if (!channelOnly && !string.Equals(options.Scenario, "all", StringComparison.OrdinalIgnoreCase))
         {
-            throw new ArgumentException($"Unsupported scenario '{options.Scenario}'. Supported value: all.");
+            throw new ArgumentException($"Unsupported scenario '{options.Scenario}'. Supported values: all, channel.");
         }
 
         using CancellationTokenSource timeout = new CancellationTokenSource(options.Timeout);
         string host = options.HostAddress!;
-        string suffix = Guid.NewGuid().ToString("N")[..12];
+        string suffix = Guid.NewGuid().ToString("N").Substring(0, 12);
         string publicationChannelId = $"validation-publication-{suffix}";
         string requestChannelId = $"validation-request-{suffix}";
         string topic = $"validation.topic.{suffix}";
@@ -118,7 +124,6 @@ internal static class Program
 
         ChannelManagementService management = new ChannelManagementService();
         SetCredential(management, options.Username, options.Password);
-        AcceptUnsignedHttps(management);
 
         ProviderPublicationService providerPublication = new ProviderPublicationService();
         ConsumerPublicationService consumerPublication = new ConsumerPublicationService();
@@ -128,10 +133,6 @@ internal static class Program
         SetCredential(consumerPublication, username, password);
         SetCredential(consumerRequest, username, password);
         SetCredential(providerRequest, username, password);
-        AcceptUnsignedHttps(providerPublication);
-        AcceptUnsignedHttps(consumerPublication);
-        AcceptUnsignedHttps(consumerRequest);
-        AcceptUnsignedHttps(providerRequest);
 
         string? publicationSessionId = null;
         string? subscriptionSessionId = null;
@@ -147,6 +148,9 @@ internal static class Program
                 username = username,
                 password = password
             });
+
+            object getChannelsBeforeCreate = await management.GetChannelsAsync(host, timeout.Token);
+            ExpectSuccess(report, "channel retrieval/listing", "list channels before create", getChannelsBeforeCreate, 200);
 
             object publicationCreate = await management.CreateChannelAsync(host, publicationChannelId, "Publication", "ClientAdapter 2.1.1 validation publication channel", protectedOptions, timeout.Token);
             ExpectSuccess(report, "channel creation", "create protected publication channel", publicationCreate, 201);
@@ -174,6 +178,11 @@ internal static class Program
             object getChannels = await management.GetChannelsAsync(host, timeout.Token);
             ExpectSuccess(report, "channel retrieval/listing", "list channels", getChannels, 200);
 
+            if (channelOnly)
+            {
+                return;
+            }
+
             AddSecurityTokensOptions addTokens = new AddSecurityTokensOptions();
             addTokens.SecurityTokens.Add(new AddSecurityTokensOptions.SecurityToken
             {
@@ -182,21 +191,20 @@ internal static class Program
                 password = addedPassword
             });
             object addToken = await management.AddSecurityTokensAsync(host, requestChannelId, addTokens, timeout.Token);
-            ExpectSuccess(report, "security-token add/remove", "add generated security token", addToken, 204);
+            ExpectSuccess(report, "security-token add/remove", "add generated security token", addToken, 201, 204);
 
             RemoveSecurityTokensOptions removeTokens = new RemoveSecurityTokensOptions();
             removeTokens.SecurityTokens.Add(new RemoveSecurityTokensOptions.SecurityToken
             {
                 type = "UsernameToken",
                 username = addedUsername,
-                password = string.Empty
+                password = addedPassword
             });
             object removeToken = await management.RemoveSecurityTokensAsync(host, requestChannelId, removeTokens, timeout.Token);
             ExpectSuccess(report, "security-token add/remove", "remove generated security token", removeToken, 204);
 
             ProviderPublicationService badProviderPublication = new ProviderPublicationService();
             SetCredential(badProviderPublication, $"{username}-wrong", $"{password}-wrong");
-            AcceptUnsignedHttps(badProviderPublication);
             object badOpenPublication = await badProviderPublication.OpenPublicationSessionAsync(host, publicationChannelId, timeout.Token);
             ExpectFailure(report, "auth success/failure checks", "reject wrong publication credentials", badOpenPublication);
 
@@ -210,23 +218,7 @@ internal static class Program
                 cleanupActions.Add(async () => await consumerPublication.CloseSubscriptionSessionAsync(host, listenerSessionId, CancellationToken.None));
             }
 
-            OpenSubscriptionSessionOptions filterOptions = new OpenSubscriptionSessionOptions();
-            filterOptions.FilterExpressions.Add(new FilterExpression
-            {
-                ExpressionString = new ExpressionString
-                {
-                    Expression = "true()",
-                    Language = "XPath",
-                    LanguageVersion = "1.0"
-                }
-            });
-            object filterOpen = await consumerPublication.OpenSubscriptionSessionAsync(host, publicationChannelId, topic, filterOptions, timeout.Token);
-            ExpectSuccess(report, "filterExpression", "accept filterExpression option", filterOpen, 201);
-            string? filterSessionId = GetString(filterOpen, "SessionID");
-            if (!string.IsNullOrWhiteSpace(filterSessionId))
-            {
-                cleanupActions.Add(async () => await consumerPublication.CloseSubscriptionSessionAsync(host, filterSessionId, CancellationToken.None));
-            }
+            await ValidateFilterExpressionAcceptanceAsync(report, cleanupActions, consumerPublication, host, publicationChannelId, topic, timeout.Token);
 
             object openSubscription = await consumerPublication.OpenSubscriptionSessionAsync(host, publicationChannelId, topic, timeout.Token);
             ExpectSuccess(report, "subscription workflow", "open subscription session", openSubscription, 201);
@@ -396,15 +388,78 @@ internal static class Program
         }
     }
 
-    private static void SetCredential(dynamic service, string username, string password)
+    private static async Task ValidateFilterExpressionAcceptanceAsync(
+        ValidationReport report,
+        List<Func<Task>> cleanupActions,
+        ConsumerPublicationService consumerPublication,
+        string host,
+        string publicationChannelId,
+        string topic,
+        CancellationToken cancellationToken)
     {
-        service.Credential.Username = username;
-        service.Credential.Password = password;
+        List<FilterCandidate> candidates = new List<FilterCandidate>
+        {
+            new FilterCandidate("XPath media filter", "/*", "XPath", "1.0", "application/json"),
+            new FilterCandidate("XPath lowercase media filter", "/*", "xpath", "1.0", "application/json"),
+            new FilterCandidate("XPath no media filter", "/*", "XPath", "1.0", null),
+            new FilterCandidate("XPath descendant media filter", "//*", "XPath", "1.0", "application/json"),
+            new FilterCandidate("XPath standard-uri media filter", "/*", "http://www.w3.org/TR/1999/REC-xpath-19991116", "1.0", "application/json")
+        };
+
+        object? lastResponse = null;
+        foreach (FilterCandidate candidate in candidates)
+        {
+            OpenSubscriptionSessionOptions filterOptions = new OpenSubscriptionSessionOptions();
+            FilterExpression filterExpression = new FilterExpression
+            {
+                ExpressionString = new ExpressionString
+                {
+                    Expression = candidate.Expression,
+                    Language = candidate.Language,
+                    LanguageVersion = candidate.LanguageVersion
+                }
+            };
+
+            if (!string.IsNullOrWhiteSpace(candidate.MediaType))
+            {
+                filterExpression.ApplicableMediaTypes.Add(new ApplicableMediaType
+                {
+                    MediaType = candidate.MediaType
+                });
+            }
+
+            filterOptions.FilterExpressions.Add(filterExpression);
+            object response = await consumerPublication.OpenSubscriptionSessionAsync(host, publicationChannelId, topic, filterOptions, cancellationToken);
+            lastResponse = response;
+
+            if (GetInt(response, "StatusCode") == 201)
+            {
+                report.Pass("filterExpression", $"accept filterExpression option ({candidate.Name})", response);
+                string? filterSessionId = GetString(response, "SessionID");
+                if (!string.IsNullOrWhiteSpace(filterSessionId))
+                {
+                    cleanupActions.Add(async () => await consumerPublication.CloseSubscriptionSessionAsync(host, filterSessionId, CancellationToken.None));
+                }
+
+                return;
+            }
+        }
+
+        if (lastResponse != null)
+        {
+            report.Fail("filterExpression", "accept filterExpression option", lastResponse, "Host rejected all filterExpression candidates.");
+        }
+        else
+        {
+            report.Block("filterExpression", "accept filterExpression option", "No filterExpression candidates were attempted.");
+        }
     }
 
-    private static void AcceptUnsignedHttps(dynamic service)
+    private static void SetCredential(object service, string username, string password)
     {
-        service.Authentication.AcceptUnsignedHttps = true;
+        object credential = GetRequiredMemberValue(service, "Credential");
+        SetRequiredMemberValue(credential, "Username", username);
+        SetRequiredMemberValue(credential, "Password", password);
     }
 
     private static void ExpectSuccess(ValidationReport report, string scenario, string operation, object response, params int[] expectedStatusCodes)
@@ -469,6 +524,42 @@ internal static class Program
         }
 
         return null;
+    }
+
+    private static object GetRequiredMemberValue(object source, string name)
+    {
+        object? value = GetMemberValue(source, name);
+        if (value == null)
+        {
+            throw new InvalidOperationException($"{source.GetType().Name}.{name} was not found.");
+        }
+
+        return value;
+    }
+
+    private static void SetRequiredMemberValue(object source, string name, object value)
+    {
+        Type? type = source.GetType();
+        while (type != null)
+        {
+            FieldInfo? field = type.GetField(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            if (field != null)
+            {
+                field.SetValue(source, value);
+                return;
+            }
+
+            PropertyInfo? property = type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            if (property != null)
+            {
+                property.SetValue(source, value);
+                return;
+            }
+
+            type = type.BaseType;
+        }
+
+        throw new InvalidOperationException($"{source.GetType().Name}.{name} was not found.");
     }
 
     private static string DescribeResponse(object? response)
@@ -585,6 +676,24 @@ internal static class Program
         }
     }
 
+    private sealed class FilterCandidate
+    {
+        public FilterCandidate(string name, string expression, string language, string languageVersion, string? mediaType)
+        {
+            Name = name;
+            Expression = expression;
+            Language = language;
+            LanguageVersion = languageVersion;
+            MediaType = mediaType;
+        }
+
+        public string Name { get; }
+        public string Expression { get; }
+        public string Language { get; }
+        public string LanguageVersion { get; }
+        public string? MediaType { get; }
+    }
+
     private sealed class ValidationReport
     {
         private readonly bool verbose;
@@ -649,7 +758,23 @@ internal static class Program
         }
     }
 
-    private sealed record Result(Outcome Outcome, string Scenario, string Operation, string Message, string ResponseSummary);
+    private sealed class Result
+    {
+        public Result(Outcome outcome, string scenario, string operation, string message, string responseSummary)
+        {
+            Outcome = outcome;
+            Scenario = scenario;
+            Operation = operation;
+            Message = message;
+            ResponseSummary = responseSummary;
+        }
+
+        public Outcome Outcome { get; }
+        public string Scenario { get; }
+        public string Operation { get; }
+        public string Message { get; }
+        public string ResponseSummary { get; }
+    }
 
     private enum Outcome
     {

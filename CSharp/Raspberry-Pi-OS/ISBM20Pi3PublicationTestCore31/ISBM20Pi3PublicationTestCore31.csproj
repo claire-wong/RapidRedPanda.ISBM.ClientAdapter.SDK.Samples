@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -12,18 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.0" />
+    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Configs.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Packages\ISBM20ClientAdapter\netcoreapp3.1\Newtonsoft.Json.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Packages\Newtonsoft\Newtonsoft.Json.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="SyncMeasurements.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

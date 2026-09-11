@@ -7,6 +7,7 @@ namespace ISBM20ClientAdapterValidationRunner;
 internal static class Program
 {
     private const string PackageName = "RapidRedPanda.ISBM.ClientAdapter";
+    private const string ExpectedPackageVersion = "2.1.1";
     private const string ExpectedAssemblyVersion = "2.1.0.0";
 
     private static async Task<int> Main(string[] args)
@@ -40,9 +41,13 @@ internal static class Program
     {
         Assembly assembly = typeof(ProviderPublicationService).Assembly;
         AssemblyName assemblyName = assembly.GetName();
+        string? informationalVersion = assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+            .InformationalVersion;
 
         Require(assemblyName.Name == PackageName, $"Expected {PackageName}, found {assemblyName.Name}.");
         Require(assemblyName.Version?.ToString() == ExpectedAssemblyVersion, $"Expected assembly version {ExpectedAssemblyVersion}, found {assemblyName.Version}.");
+        Require(informationalVersion != null && informationalVersion.StartsWith(ExpectedPackageVersion, StringComparison.Ordinal), $"Expected package informational version {ExpectedPackageVersion}, found {informationalVersion}.");
 
         ValidateCredentialProperty<ProviderPublicationService>();
         ValidateCredentialProperty<ConsumerPublicationService>();
@@ -87,7 +92,7 @@ internal static class Program
 
         ValidateOptions();
 
-        Console.WriteLine($"{PackageName} assembly version {assemblyName.Version} surface validated.");
+        Console.WriteLine($"{PackageName} package {informationalVersion} assembly version {assemblyName.Version} surface validated.");
     }
 
     private static async Task ValidateLiveChannelManagementAsync(RunnerOptions options)
@@ -114,11 +119,11 @@ internal static class Program
                 password = passwordToken
             });
 
-            dynamic publicationCreate = await service.CreateChannelAsync(options.HostAddress!, publicationChannelId, "Publication", "ClientAdapter 2.1.0 validation publication channel", createOptions, timeout.Token);
+            dynamic publicationCreate = await service.CreateChannelAsync(options.HostAddress!, publicationChannelId, "Publication", "ClientAdapter 2.1.1 validation publication channel", createOptions, timeout.Token);
             RequireSuccess(publicationCreate.StatusCode, $"create publication channel {publicationChannelId}");
             createdChannels.Add(publicationChannelId);
 
-            dynamic requestCreate = await service.CreateChannelAsync(options.HostAddress!, requestChannelId, "Request", "ClientAdapter 2.1.0 validation request channel", timeout.Token);
+            dynamic requestCreate = await service.CreateChannelAsync(options.HostAddress!, requestChannelId, "Request", "ClientAdapter 2.1.1 validation request channel", timeout.Token);
             RequireSuccess(requestCreate.StatusCode, $"create request channel {requestChannelId}");
             createdChannels.Add(requestChannelId);
 

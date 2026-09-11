@@ -139,7 +139,7 @@ The ISBM request-response model is in asynchronous mode, which means that the se
 The C# toolkit samples in this repository are aligned with the released NuGet package:
 
 ```xml
-<PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.0" />
+<PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.1" />
 ```
 
 The samples are intended to show how real applications consume the public ClientAdapter API from NuGet. They do not require an adjacent ClientAdapter source repository or locally copied ClientAdapter DLLs.
@@ -153,14 +153,15 @@ Included sample applications:
 5. Windows desktop Channel Management sample
 6. Raspberry Pi Publication sample
 7. Raspberry Pi Request sample
-8. UWP Publication sample
-9. ClientAdapter validation runner
+8. ClientAdapter validation runner
+
+The Windows 10 IoT Core / UWP sample has been dropped from the active sample set.
 
 ### Before Running the Program
 
 Restore NuGet packages before building or running a sample. Visual Studio can restore automatically, or you can run `dotnet restore` / MSBuild restore for the selected project.
 
-The validation runner is located at `CSharp/ValidationRunner/ISBM20ClientAdapterValidationRunner`. Running it with no arguments validates that the project resolves `RapidRedPanda.ISBM.ClientAdapter` 2.1.0 and that the expected interfaces, async overloads, and options are present. To validate against a live ISBM server, pass `--host <url>` and, if needed, `--username <user>` and `--password <password>`. Live validation creates temporary channels and security tokens, then removes them before exiting.
+The validation runner is located at `CSharp/ValidationRunner/ISBM20ClientAdapterValidationRunner`. Running it with no arguments validates that the project resolves `RapidRedPanda.ISBM.ClientAdapter` 2.1.1 and that the expected interfaces, async overloads, and options are present. To validate against a live ISBM server, pass `--host <url>` and, if needed, `--username <user>` and `--password <password>`. Live validation creates temporary channels and security tokens, then removes them before exiting.
 
 ### Useful Links
 

@@ -74,19 +74,31 @@ namespace ISBM21ProviderPublicationTestCSharp
 
         private async void buttonPushlish_Click(object sender, EventArgs e)
         {
+            try
+            {
+                PostPublicationOptions myPostPublicationOptions = new PostPublicationOptions();
+                myPostPublicationOptions.Expiry = "P2D";
 
-            PostPublicationOptions myPostPublicationOptions = new PostPublicationOptions();
-            myPostPublicationOptions.Expiry = "P2D";
+                string mediaType = textBoxMediaType.Text.Trim();
+                if (!string.IsNullOrWhiteSpace(mediaType))
+                {
+                    myPostPublicationOptions.MediaType = mediaType;
+                }
 
-            //Calling ISBM Adapter method 
-            PostPublicationResponse myPostPublicationResponse = await myProviderPublicationService.PostPublicationAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxTopic.Text, textBoxBOD.Text, myPostPublicationOptions, CancellationToken.None);
+                //Calling ISBM Adapter method 
+                PostPublicationResponse myPostPublicationResponse = await myProviderPublicationService.PostPublicationAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxTopic.Text, textBoxBOD.Text, myPostPublicationOptions, CancellationToken.None);
 
-            //ISBM Adapter Response
-            textBoxStatusCode.Text = myPostPublicationResponse.StatusCode.ToString();
-            textBoxReasonPhrase.Text = myPostPublicationResponse.ReasonPhrase;
-            textBoxResponse.Text = myPostPublicationResponse.ISBMHTTPResponse;
-            
-            textBoxMessageId.Text = myPostPublicationResponse.MessageID;
+                //ISBM Adapter Response
+                textBoxStatusCode.Text = myPostPublicationResponse.StatusCode.ToString();
+                textBoxReasonPhrase.Text = myPostPublicationResponse.ReasonPhrase;
+                textBoxResponse.Text = myPostPublicationResponse.ISBMHTTPResponse;
+
+                textBoxMessageId.Text = myPostPublicationResponse.MessageID;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Post Publication Failed");
+            }
         }
 
         private async void buttonExpire_Click(object sender, EventArgs e)

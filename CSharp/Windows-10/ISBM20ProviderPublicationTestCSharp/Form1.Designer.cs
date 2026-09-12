@@ -43,10 +43,12 @@
             this.textBoxMessageId = new System.Windows.Forms.TextBox();
             this.textBoxSessionId = new System.Windows.Forms.TextBox();
             this.textBoxTopic = new System.Windows.Forms.TextBox();
+            this.textBoxMediaType = new System.Windows.Forms.TextBox();
             this.textBoxChannelId = new System.Windows.Forms.TextBox();
             this.textBoxHostName = new System.Windows.Forms.TextBox();
             this.labelReasonPhrase = new System.Windows.Forms.Label();
             this.labelStatusCode = new System.Windows.Forms.Label();
+            this.labelMediaType = new System.Windows.Forms.Label();
             this.labelMessageID = new System.Windows.Forms.Label();
             this.labelSessionID = new System.Windows.Forms.Label();
             this.labelTpoic = new System.Windows.Forms.Label();
@@ -208,6 +210,15 @@
             this.textBoxTopic.TabIndex = 97;
             this.textBoxTopic.Text = "OIIE:S30:V1.1/CCOM-JSON:SyncMeasurements:V1.0";
             // 
+            // textBoxMediaType
+            // 
+            this.textBoxMediaType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.textBoxMediaType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxMediaType.Location = new System.Drawing.Point(365, 213);
+            this.textBoxMediaType.Name = "textBoxMediaType";
+            this.textBoxMediaType.Size = new System.Drawing.Size(331, 26);
+            this.textBoxMediaType.TabIndex = 106;
+            // 
             // textBoxChannelId
             // 
             this.textBoxChannelId.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -249,6 +260,17 @@
             this.labelStatusCode.Size = new System.Drawing.Size(98, 20);
             this.labelStatusCode.TabIndex = 93;
             this.labelStatusCode.Text = "Status Code";
+            // 
+            // labelMediaType
+            // 
+            this.labelMediaType.AutoSize = true;
+            this.labelMediaType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMediaType.ForeColor = System.Drawing.Color.Black;
+            this.labelMediaType.Location = new System.Drawing.Point(260, 216);
+            this.labelMediaType.Name = "labelMediaType";
+            this.labelMediaType.Size = new System.Drawing.Size(89, 20);
+            this.labelMediaType.TabIndex = 105;
+            this.labelMediaType.Text = "Media Type";
             // 
             // labelMessageID
             // 
@@ -403,10 +425,12 @@
             this.Controls.Add(this.textBoxMessageId);
             this.Controls.Add(this.textBoxSessionId);
             this.Controls.Add(this.textBoxTopic);
+            this.Controls.Add(this.textBoxMediaType);
             this.Controls.Add(this.textBoxChannelId);
             this.Controls.Add(this.textBoxHostName);
             this.Controls.Add(this.labelReasonPhrase);
             this.Controls.Add(this.labelStatusCode);
+            this.Controls.Add(this.labelMediaType);
             this.Controls.Add(this.labelMessageID);
             this.Controls.Add(this.labelSessionID);
             this.Controls.Add(this.labelTpoic);
@@ -439,10 +463,12 @@
         private System.Windows.Forms.TextBox textBoxMessageId;
         private System.Windows.Forms.TextBox textBoxSessionId;
         private System.Windows.Forms.TextBox textBoxTopic;
+        private System.Windows.Forms.TextBox textBoxMediaType;
         private System.Windows.Forms.TextBox textBoxChannelId;
         private System.Windows.Forms.TextBox textBoxHostName;
         private System.Windows.Forms.Label labelReasonPhrase;
         private System.Windows.Forms.Label labelStatusCode;
+        private System.Windows.Forms.Label labelMediaType;
         private System.Windows.Forms.Label labelMessageID;
         private System.Windows.Forms.Label labelSessionID;
         private System.Windows.Forms.Label labelTpoic;

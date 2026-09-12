@@ -68,17 +68,35 @@ namespace ISBM20ConsumerRequestTestCSharp
 
         private async void buttonPostRequest_Click(object sender, EventArgs e)
         {
-            //Calling ISBM Adapter method
-            PostRequestResponse myPostRequestResponse = await myConsumerRequestService.PostRequestAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxTopic.Text, textBoxBODRequest.Text, CancellationToken.None);
+            try
+            {
+                string mediaType = textBoxMediaType.Text.Trim();
 
-            //ISBM Adapter Response
-            textBoxStatusCode.Text = myPostRequestResponse.StatusCode.ToString();
-            textBoxReasonPhrase.Text = myPostRequestResponse.ReasonPhrase;
-            textBoxResponse.Text = myPostRequestResponse.ISBMHTTPResponse;
+                //Calling ISBM Adapter method
+                PostRequestResponse myPostRequestResponse;
+                if (string.IsNullOrWhiteSpace(mediaType))
+                {
+                    myPostRequestResponse = await myConsumerRequestService.PostRequestAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxTopic.Text, textBoxBODRequest.Text, CancellationToken.None);
+                }
+                else
+                {
+                    PostRequestOptions myPostRequestOptions = new PostRequestOptions();
+                    myPostRequestOptions.MediaType = mediaType;
+                    myPostRequestResponse = await myConsumerRequestService.PostRequestAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxTopic.Text, textBoxBODRequest.Text, myPostRequestOptions, CancellationToken.None);
+                }
 
-            textBoxMessageId.Text = myPostRequestResponse.MessageID;
-            textBoxRequestMessageId.Text = myPostRequestResponse.MessageID;
+                //ISBM Adapter Response
+                textBoxStatusCode.Text = myPostRequestResponse.StatusCode.ToString();
+                textBoxReasonPhrase.Text = myPostRequestResponse.ReasonPhrase;
+                textBoxResponse.Text = myPostRequestResponse.ISBMHTTPResponse;
 
+                textBoxMessageId.Text = myPostRequestResponse.MessageID;
+                textBoxRequestMessageId.Text = myPostRequestResponse.MessageID;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Post Request Failed");
+            }
         }
 
         private async void buttonCloseSession_Click(object sender, EventArgs e)

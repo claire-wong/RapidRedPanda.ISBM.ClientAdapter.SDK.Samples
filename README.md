@@ -161,6 +161,13 @@ The Windows 10 IoT Core / UWP sample has been dropped from the active sample set
 
 Restore NuGet packages before building or running a sample. Visual Studio can restore automatically, or you can run `dotnet restore` / MSBuild restore for the selected project.
 
+The desktop Provider Publication, Consumer Request, and Provider Request samples include a **Media Type** field for posting payloads:
+
+- Leave **Media Type** blank to use native JSON object mode. The payload must be a JSON object, for example `{"value":42}`.
+- Enter `application/xml` to send XML text exactly as typed, for example `<reading><value>42</value></reading>`.
+- Enter `text/plain` to send plain text exactly as typed.
+- Enter `application/json` to send JSON text as string content. Blank and `application/json` are intentionally different modes.
+
 The validation runner is located at `CSharp/ValidationRunner/ISBM20ClientAdapterValidationRunner`. Running it with no arguments validates that the project resolves `RapidRedPanda.ISBM.ClientAdapter` 2.1.1 and that the expected interfaces, async overloads, and options are present. To validate against a live ISBM server, pass `--host <url>` and, if needed, `--username <user>` and `--password <password>`. Live validation creates temporary channels and security tokens, then removes them before exiting.
 
 ### Useful Links

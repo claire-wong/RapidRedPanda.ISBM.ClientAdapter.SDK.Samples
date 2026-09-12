@@ -98,15 +98,34 @@ namespace ISBM20ProviderRequestTestCSharp
 
         private async void buttonResponse_Click(object sender, EventArgs e)
         {
-            //Calling ISBM Adapter method
-            PostResponseResponse myPostResponseResponse = await myProviderRequestService.PostResponseAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxRequestMessageId.Text, textBoxBODResponse.Text, CancellationToken.None);
+            try
+            {
+                string mediaType = textBoxMediaType.Text.Trim();
 
-            //ISBM Adapter Response
-            textBoxStatusCode.Text = myPostResponseResponse.StatusCode.ToString();
-            textBoxReasonPhrase.Text = myPostResponseResponse.ReasonPhrase;
-            textBoxResponse.Text = myPostResponseResponse.ISBMHTTPResponse;
+                //Calling ISBM Adapter method
+                PostResponseResponse myPostResponseResponse;
+                if (string.IsNullOrWhiteSpace(mediaType))
+                {
+                    myPostResponseResponse = await myProviderRequestService.PostResponseAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxRequestMessageId.Text, textBoxBODResponse.Text, CancellationToken.None);
+                }
+                else
+                {
+                    PostResponseOptions myPostResponseOptions = new PostResponseOptions();
+                    myPostResponseOptions.MediaType = mediaType;
+                    myPostResponseResponse = await myProviderRequestService.PostResponseAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxRequestMessageId.Text, textBoxBODResponse.Text, myPostResponseOptions, CancellationToken.None);
+                }
 
-            textBoxMessageId.Text = myPostResponseResponse.MessageID;
+                //ISBM Adapter Response
+                textBoxStatusCode.Text = myPostResponseResponse.StatusCode.ToString();
+                textBoxReasonPhrase.Text = myPostResponseResponse.ReasonPhrase;
+                textBoxResponse.Text = myPostResponseResponse.ISBMHTTPResponse;
+
+                textBoxMessageId.Text = myPostResponseResponse.MessageID;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Post Response Failed");
+            }
         }
 
         private async void buttonRemove_Click(object sender, EventArgs e)

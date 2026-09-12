@@ -81,7 +81,6 @@ namespace ISBM20ConsumerRequestTestCSharp
                 else
                 {
                     PostRequestOptions myPostRequestOptions = new PostRequestOptions();
-                    myPostRequestOptions.Expiry = "P2D";
                     myPostRequestOptions.MediaType = mediaType;
                     myPostRequestResponse = await myConsumerRequestService.PostRequestAsync(textBoxHostName.Text, textBoxSessionId.Text, textBoxTopic.Text, textBoxBODRequest.Text, myPostRequestOptions, CancellationToken.None);
                 }

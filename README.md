@@ -136,11 +136,39 @@ The ISBM request-response model is in asynchronous mode, which means that the se
 
 ### Project Information
 
-## Under construction
+The C# toolkit samples in this repository are aligned with the released NuGet package:
+
+```xml
+<PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.2" />
+```
+
+The samples are intended to show how real applications consume the public ClientAdapter API from NuGet. They do not require an adjacent ClientAdapter source repository or locally copied ClientAdapter DLLs.
+
+Included sample applications:
+
+1. Windows desktop Provider Publication sample
+2. Windows desktop Consumer Publication sample
+3. Windows desktop Consumer Request sample
+4. Windows desktop Provider Request sample
+5. Windows desktop Channel Management sample
+6. Raspberry Pi Publication sample
+7. Raspberry Pi Request sample
+8. ClientAdapter validation runner
+
+The Windows 10 IoT Core / UWP sample has been dropped from the active sample set.
 
 ### Before Running the Program
 
-## Under construction
+Restore NuGet packages before building or running a sample. Visual Studio can restore automatically, or you can run `dotnet restore` / MSBuild restore for the selected project.
+
+The desktop Provider Publication, Consumer Request, and Provider Request samples include a **Media Type** field for posting payloads:
+
+- Leave **Media Type** blank to use native JSON object mode. The payload must be a JSON object, for example `{"value":42}`.
+- Enter `application/xml` to send XML text exactly as typed, for example `<reading><value>42</value></reading>`.
+- Enter `text/plain` to send plain text exactly as typed.
+- Enter `application/json` to send JSON text as string content. Blank and `application/json` are intentionally different modes.
+
+The validation runner is located at `CSharp/ValidationRunner/ISBM20ClientAdapterValidationRunner`. Running it with no arguments validates that the project resolves `RapidRedPanda.ISBM.ClientAdapter` 2.1.2 and that the expected interfaces, async overloads, and options are present. To validate against a live ISBM server, pass `--host <url>` and, if needed, `--username <user>` and `--password <password>`. Live validation creates temporary channels and security tokens, then removes them before exiting.
 
 ### Useful Links
 
@@ -163,4 +191,5 @@ The ISBM request-response model is in asynchronous mode, which means that the se
    4. BOD - [OAGIS Business Object Document](https://www.oagidocs.org/docs/)
 
  
+
 

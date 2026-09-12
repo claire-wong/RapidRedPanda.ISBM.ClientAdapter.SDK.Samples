@@ -18,6 +18,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RapidRedPanda.ISBM.ClientAdapter;
@@ -35,14 +36,21 @@ namespace ISBM21ConsumerPublicationTestCSharp
             InitializeComponent();
         }
 
-        private void buttonOpenSession_Click(object sender, EventArgs e)
+        private async void buttonOpenSession_Click(object sender, EventArgs e)
         {
             //Calling ISBM Adaper method
             
             myConsumerPublicationService.Credential.Username = textBoxUserName.Text;
             myConsumerPublicationService.Credential.Password = textBoxPassword.Text;
- 
-            OpenSubscriptionSessionResponse myOpenSubscriptionSessionResponse = myConsumerPublicationService.OpenSubscriptionSession(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text);
+
+            OpenSubscriptionSessionOptions myOpenSubscriptionSessionOptions = new OpenSubscriptionSessionOptions();
+            
+            // With Listener
+            myOpenSubscriptionSessionOptions.ListenerURL = "http://127.0.0.1:8080";
+            OpenSubscriptionSessionResponse myOpenSubscriptionSessionResponse = await myConsumerPublicationService.OpenSubscriptionSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, myOpenSubscriptionSessionOptions, CancellationToken.None);
+            
+            //Simple
+            //OpenSubscriptionSessionResponse myOpenSubscriptionSessionResponse = myConsumerPublicationService.OpenSubscriptionSession(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text);
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myOpenSubscriptionSessionResponse.StatusCode.ToString();
@@ -52,10 +60,10 @@ namespace ISBM21ConsumerPublicationTestCSharp
             textBoxSessionId.Text = myOpenSubscriptionSessionResponse.SessionID;
         }
 
-        private void buttonCloseSession_Click(object sender, EventArgs e)
+        private async void buttonCloseSession_Click(object sender, EventArgs e)
         {
             //Calling ISBM Adaper method
-            CloseSubscriptionSessionResponse myCloseSubscriptionSessionResponse = myConsumerPublicationService.CloseSubscriptionSession(textBoxHostName.Text, textBoxSessionId.Text);
+            CloseSubscriptionSessionResponse myCloseSubscriptionSessionResponse = await myConsumerPublicationService.CloseSubscriptionSessionAsync(textBoxHostName.Text, textBoxSessionId.Text, CancellationToken.None);
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myCloseSubscriptionSessionResponse.StatusCode.ToString();
@@ -63,10 +71,10 @@ namespace ISBM21ConsumerPublicationTestCSharp
             textBoxResponse.Text = myCloseSubscriptionSessionResponse.ISBMHTTPResponse;
         }
 
-        private void buttonRead_Click(object sender, EventArgs e)
+        private async void buttonRead_Click(object sender, EventArgs e)
         {
             //Calling ISBM Adaper method
-            ReadPublicationResponse myReadPublicationResponse = myConsumerPublicationService.ReadPublication(textBoxHostName.Text, textBoxSessionId.Text);
+            ReadPublicationResponse myReadPublicationResponse = await myConsumerPublicationService.ReadPublicationAsync(textBoxHostName.Text, textBoxSessionId.Text, CancellationToken.None);
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myReadPublicationResponse.StatusCode.ToString();
@@ -76,14 +84,14 @@ namespace ISBM21ConsumerPublicationTestCSharp
             if (myReadPublicationResponse.StatusCode == 200)
             {
                 textBoxMessageID.Text = myReadPublicationResponse.MessageID;
-                textBoxTopic.Text = myReadPublicationResponse.Topic;
+                textBoxTopic.Text = myReadPublicationResponse.Topics[0];
                 textBoxBOD.Text = myReadPublicationResponse.MessageContent;
             }
         }
-        private void buttonRemove_Click(object sender, EventArgs e)
+        private async void buttonRemove_Click(object sender, EventArgs e)
         {
             //Calling ISBM Adaper method
-            RemovePublicationResponse myRemovePublicationResponse = myConsumerPublicationService.RemovePublication(textBoxHostName.Text, textBoxSessionId.Text);
+            RemovePublicationResponse myRemovePublicationResponse = await myConsumerPublicationService.RemovePublicationAsync(textBoxHostName.Text, textBoxSessionId.Text, CancellationToken.None);
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myRemovePublicationResponse.StatusCode.ToString();

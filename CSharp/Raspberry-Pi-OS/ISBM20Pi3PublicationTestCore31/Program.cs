@@ -10,6 +10,10 @@
  * Author: Pak Wong
  * Date Created:  2022/08/31
  * 
+ * Version Upgrade
+ * 
+ * Remarks: 1. The demo now provides a graceful exit for the program. Please follow the on-screen instructions.
+ *                                  
  * Modified By : Claire Wong
  * Date Modified : 2023/12/23
  * 
@@ -19,6 +23,7 @@
 
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using RapidRedPanda.ISBM.ClientAdapter;
 using RapidRedPanda.ISBM.ClientAdapter.ResponseType;
 using Newtonsoft.Json;
@@ -41,7 +46,7 @@ namespace ISBM20Pi3TestCore21
 
         static ProviderPublicationService _myProviderPublicationService = new ProviderPublicationService();
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
 
             SetConfigurations();
@@ -51,7 +56,7 @@ namespace ISBM20Pi3TestCore21
             _myProviderPublicationService.Credential.Password = _password;
 
             //Open an Provider Publication Session
-            OpenPublicationSessionResponse myOpenPublicationSessionResponse = _myProviderPublicationService.OpenPublicationSession(_hostName, _channelId);
+            OpenPublicationSessionResponse myOpenPublicationSessionResponse = await _myProviderPublicationService.OpenPublicationSessionAsync(_hostName, _channelId, CancellationToken.None);
             Console.WriteLine("Host Address " + _hostName);
             Console.WriteLine("Channel Id " + _channelId);
 
@@ -69,7 +74,7 @@ namespace ISBM20Pi3TestCore21
                 Console.WriteLine("Please check configurations!!");
             }
 
-            Thread.Sleep(1000);
+            await Task.Delay(1000);
 
             Boolean continueLoop = true;
 
@@ -84,12 +89,12 @@ namespace ISBM20Pi3TestCore21
 
             while (continueLoop)
             {
-                PublishBOD();
-                Thread.Sleep(5000);
+                await PublishBOD();
+                await Task.Delay(5000);
             }
 
             // Calling ISBM Adaper method
-            ClosePublicationSessionResponse myClosePublicationSessionResponse = _myProviderPublicationService.ClosePublicationSession(_hostName, _sessionId);
+            ClosePublicationSessionResponse myClosePublicationSessionResponse = await _myProviderPublicationService.ClosePublicationSessionAsync(_hostName, _sessionId, CancellationToken.None);
 
             //ISBM Adapter Response
             if (myClosePublicationSessionResponse.StatusCode == 204)
@@ -137,14 +142,14 @@ namespace ISBM20Pi3TestCore21
             _bodTemplate = JsonFromFile;
         }
 
-        private static void PublishBOD()
+        private static async Task PublishBOD()
         {
 
             //Create new BOD message from SyncMeasurements use case template
             string bodMessage = FillBODFields(_bodTemplate);
 
             //Post Publication - BOD message
-            PostPublicationResponse myPostPublicationResponse = _myProviderPublicationService.PostPublication(_hostName, _sessionId, _topic, bodMessage);
+            PostPublicationResponse myPostPublicationResponse = await _myProviderPublicationService.PostPublicationAsync(_hostName, _sessionId, _topic, bodMessage, CancellationToken.None);
 
             string MessageId = "";
             if (myPostPublicationResponse.StatusCode == 201)

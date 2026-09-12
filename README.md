@@ -139,7 +139,7 @@ The ISBM request-response model is in asynchronous mode, which means that the se
 The C# toolkit samples in this repository are aligned with the released NuGet package:
 
 ```xml
-<PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.1" />
+<PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.2" />
 ```
 
 The samples are intended to show how real applications consume the public ClientAdapter API from NuGet. They do not require an adjacent ClientAdapter source repository or locally copied ClientAdapter DLLs.
@@ -168,7 +168,7 @@ The desktop Provider Publication, Consumer Request, and Provider Request samples
 - Enter `text/plain` to send plain text exactly as typed.
 - Enter `application/json` to send JSON text as string content. Blank and `application/json` are intentionally different modes.
 
-The validation runner is located at `CSharp/ValidationRunner/ISBM20ClientAdapterValidationRunner`. Running it with no arguments validates that the project resolves `RapidRedPanda.ISBM.ClientAdapter` 2.1.1 and that the expected interfaces, async overloads, and options are present. To validate against a live ISBM server, pass `--host <url>` and, if needed, `--username <user>` and `--password <password>`. Live validation creates temporary channels and security tokens, then removes them before exiting.
+The validation runner is located at `CSharp/ValidationRunner/ISBM20ClientAdapterValidationRunner`. Running it with no arguments validates that the project resolves `RapidRedPanda.ISBM.ClientAdapter` 2.1.2 and that the expected interfaces, async overloads, and options are present. To validate against a live ISBM server, pass `--host <url>` and, if needed, `--username <user>` and `--password <password>`. Live validation creates temporary channels and security tokens, then removes them before exiting.
 
 ### Useful Links
 
@@ -191,4 +191,5 @@ The validation runner is located at `CSharp/ValidationRunner/ISBM20ClientAdapter
    4. BOD - [OAGIS Business Object Document](https://www.oagidocs.org/docs/)
 
  
+
 

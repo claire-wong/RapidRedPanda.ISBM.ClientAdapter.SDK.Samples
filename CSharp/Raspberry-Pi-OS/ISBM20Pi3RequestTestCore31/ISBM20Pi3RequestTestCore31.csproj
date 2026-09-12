@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.1" />
+    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,3 +28,4 @@
   </ItemGroup>
 
 </Project>
+

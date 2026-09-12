@@ -12,7 +12,7 @@ namespace ISBM20ClientAdapterValidationRunner;
 internal static class Program
 {
     private const string PackageName = "RapidRedPanda.ISBM.ClientAdapter";
-    private const string ExpectedPackageVersion = "2.1.1";
+    private const string ExpectedPackageVersion = "2.1.2";
     private const string ExpectedAssemblyVersion = "2.1.0.0";
 
     private static async Task<int> Main(string[] args)
@@ -152,14 +152,14 @@ internal static class Program
             object getChannelsBeforeCreate = await management.GetChannelsAsync(host, timeout.Token);
             ExpectSuccess(report, "channel retrieval/listing", "list channels before create", getChannelsBeforeCreate, 200);
 
-            object publicationCreate = await management.CreateChannelAsync(host, publicationChannelId, "Publication", "ClientAdapter 2.1.1 validation publication channel", protectedOptions, timeout.Token);
+            object publicationCreate = await management.CreateChannelAsync(host, publicationChannelId, "Publication", "ClientAdapter 2.1.2 validation publication channel", protectedOptions, timeout.Token);
             ExpectSuccess(report, "channel creation", "create protected publication channel", publicationCreate, 201);
             if (IsSuccess(publicationCreate))
             {
                 createdChannels.Add(publicationChannelId);
             }
 
-            object requestCreate = await management.CreateChannelAsync(host, requestChannelId, "Request", "ClientAdapter 2.1.1 validation request channel", protectedOptions, timeout.Token);
+            object requestCreate = await management.CreateChannelAsync(host, requestChannelId, "Request", "ClientAdapter 2.1.2 validation request channel", protectedOptions, timeout.Token);
             ExpectSuccess(report, "channel creation", "create protected request channel", requestCreate, 201);
             if (IsSuccess(requestCreate))
             {
@@ -784,3 +784,4 @@ internal static class Program
         Blocked
     }
 }
+

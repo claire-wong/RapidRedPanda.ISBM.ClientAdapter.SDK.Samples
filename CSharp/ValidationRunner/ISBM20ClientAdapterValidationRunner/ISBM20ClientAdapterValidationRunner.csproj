@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.1" />
+    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.2" />
   </ItemGroup>
 
 </Project>
+

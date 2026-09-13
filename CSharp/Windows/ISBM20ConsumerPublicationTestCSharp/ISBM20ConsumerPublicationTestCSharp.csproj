@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4E81A3ED-7B63-4759-8F5D-AE3EE2CE92E6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ISBM20ConsumerRequestTestCSharp</RootNamespace>
-    <AssemblyName>ISBM20ConsumerRequestTestCSharp</AssemblyName>
+    <RootNamespace>ISBM20ConsumerPublicationTestCSharp</RootNamespace>
+    <AssemblyName>ISBM20ConsumerPublicationTestCSharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -38,6 +38,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RapidRedPanda.ISBM.ClientAdapter">
+      <HintPath>$(NuGetPackageRoot)rapidredpanda.isbm.clientadapter\2.2.0\lib\netstandard2.0\RapidRedPanda.ISBM.ClientAdapter.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -56,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -67,9 +71,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="BODs\GetMeasurements.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -84,8 +85,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.2" />
+    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.2.0" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

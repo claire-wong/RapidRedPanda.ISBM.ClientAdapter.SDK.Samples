@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{90975B6B-F785-4E80-B7E8-0615D35192CF}</ProjectGuid>
+    <ProjectGuid>{4E81A3ED-7B63-4759-8F5D-AE3EE2CE92E6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ISBM20ChannelManagementTestCSharp</RootNamespace>
-    <AssemblyName>ISBM20ChannelManagementTestCSharp</AssemblyName>
+    <RootNamespace>ISBM20ConsumerRequestTestCSharp</RootNamespace>
+    <AssemblyName>ISBM20ConsumerRequestTestCSharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -38,6 +38,12 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(NuGetPackageRoot)newtonsoft.json\13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RapidRedPanda.ISBM.ClientAdapter">
+      <HintPath>$(NuGetPackageRoot)rapidredpanda.isbm.clientadapter\2.2.0\lib\netstandard2.0\RapidRedPanda.ISBM.ClientAdapter.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -46,34 +52,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormAddChannel.cs">
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAddChannel.Designer.cs">
-      <DependentUpon>FormAddChannel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormAddRemoveSecurityTokens.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormAddRemoveSecurityTokens.Designer.cs">
-      <DependentUpon>FormAddRemoveSecurityTokens.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormMain.Designer.cs">
-      <DependentUpon>FormMain.cs</DependentUpon>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormAddChannel.resx">
-      <DependentUpon>FormAddChannel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormAddRemoveSecurityTokens.resx">
-      <DependentUpon>FormAddRemoveSecurityTokens.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
-      <DependentUpon>FormMain.cs</DependentUpon>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -83,7 +71,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="BODs\GetMeasurements.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -98,7 +90,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.2.0" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

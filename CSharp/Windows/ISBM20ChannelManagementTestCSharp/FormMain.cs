@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Purpose: Main user interface for the ISBM Channel Management sample.
+ * It demonstrates channel management operations using ChannelManagementService.
+ *
+ * Updated: 2026
+ *
+ * Licensed under the MIT License.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;

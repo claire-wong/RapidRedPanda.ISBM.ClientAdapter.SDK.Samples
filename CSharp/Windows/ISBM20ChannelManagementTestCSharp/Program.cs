@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Purpose: Application entry point for the ISBM Channel Management sample.
+ *
+ * Updated: 2026
+ *
+ * Licensed under the MIT License.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Purpose: Dialog for defining security-token add and remove operations
+ * used by the ISBM Channel Management sample.
+ *
+ * Updated: 2026
+ *
+ * Licensed under the MIT License.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,19 +20,17 @@ using RapidRedPanda.ISBM.ClientAdapter.EndpointOptions;
 
 namespace ISBM20ChannelManagementTestCSharp
 {
-    public partial class FormAddChannel : Form
+    public partial class FormAddRemoveSecurityTokens : Form
     {
-        public CreateChannelOptions myCreateChannelOptions = new CreateChannelOptions();
         public string channelId;
-        public string channelType;
-        public string description;
+        public string action = "";
 
         public bool isCanceled = true;
 
-        // Create a new DataTable
-        DataTable dataTableSecurityTokens = new DataTable("SecurityTokens");
+        // Create a new DataTable to hold security tokens
+        public DataTable dataTableSecurityTokens = new DataTable("SecurityTokens");
 
-        public FormAddChannel()
+        public FormAddRemoveSecurityTokens()
         {
             InitializeComponent();
         }
@@ -46,7 +53,7 @@ namespace ISBM20ChannelManagementTestCSharp
                 MessageBox.Show("The Security Token already exists", "Security Token", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            
+
             // Add data row from the GetChannelResponse
             DataRow row = dataTableSecurityTokens.NewRow();
             row["User Name"] = textBoxUserName.Text;
@@ -55,13 +62,6 @@ namespace ISBM20ChannelManagementTestCSharp
 
             // Bound the data table to the data grid view
             dataGridViewSecurityToken.DataSource = dataTableSecurityTokens;
-        }
-
-        private void FormAddChannel_Load(object sender, EventArgs e)
-        {
-            // Define the columns in the DataTable
-            dataTableSecurityTokens.Columns.Add("User Name", typeof(string));
-            dataTableSecurityTokens.Columns.Add("Password", typeof(string));
         }
 
         private void buttonDeleteToken_Click(object sender, EventArgs e)
@@ -81,15 +81,39 @@ namespace ISBM20ChannelManagementTestCSharp
                 {
                     dataTableSecurityTokens.Rows.Remove(row);
                 }
-            }       
+            }
         }
 
-        private void buttonCreateChannel_Click(object sender, EventArgs e)
+        private void FormAddRemoveSecurityTokens_Load(object sender, EventArgs e)
+        {
+            // Set user selected Channel Id 
+            textBoxChannelId.Text = channelId;
+
+            // Set form caption 
+            switch (action)
+            {
+                case "Add":
+                    buttonAddRemoveSecurityTokens.Text = "Add Tokens";
+                    this.Text = "Add Security Tokens";
+                    break;
+                case "Remove":
+                    buttonAddRemoveSecurityTokens.Text = "Remove Tokens";
+                    this.Text = "Remove Security Tokens";
+                    break;
+            }
+            
+            // Define the columns in the DataTable
+            dataTableSecurityTokens.Columns.Add("User Name", typeof(string));
+            dataTableSecurityTokens.Columns.Add("Password", typeof(string));
+        }
+
+        private void buttonAddRemoveSecurityTokens_Click(object sender, EventArgs e)
         {
             // Check if channed ID is blank
             if (textBoxChannelId.Text == "")
             {
                 MessageBox.Show("The Channel ID cannot be blank", "Security Token", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Hide();
                 return;
             }
             else
@@ -97,61 +121,18 @@ namespace ISBM20ChannelManagementTestCSharp
                 channelId = textBoxChannelId.Text;
             }
 
-            // Check if channed Type is correct
-            if (textBoxChannelType.Text.ToLower() == "publication" || textBoxChannelType.Text.ToLower() == "request")
-            {
-                channelType = textBoxChannelType.Text;
+            // Check if no security tokens are selected
+            if (dataTableSecurityTokens.Rows.Count == 0)
+            { 
+                MessageBox.Show("No security tokens are selected.", "Security Token", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Hide();
+                return;
             }
             else
             {
-                MessageBox.Show("The Channel Type must be Publication or Request Type", "Security Token", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                isCanceled = false;
+                this.Hide();
             }
-
-            description = textBoxDescription.Text;
-
-            CreateChannelOptions.SecurityToken mySecurityToken;
-            if (dataTableSecurityTokens.Rows.Count > 0)
-            {
-                foreach (DataRow row in dataTableSecurityTokens.Rows)
-                {
-                    //Add each security token to the CreateChannelOptions object
-                    mySecurityToken = new CreateChannelOptions.SecurityToken();
-                    mySecurityToken.type = "UsernameToken";
-                    mySecurityToken.username = row["User Name"].ToString();
-                    mySecurityToken.password = row["Password"].ToString();
-                    myCreateChannelOptions.SecurityTokens.Add(mySecurityToken);
-                }
-            }
-
-            isCanceled = false;
-
-            this.Hide();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxDescription_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridViewSecurityToken_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }

@@ -44,14 +44,33 @@ namespace ISBM21ConsumerPublicationTestCSharp
             myConsumerPublicationService.Credential.Password = textBoxPassword.Text;
 
             OpenSubscriptionSessionOptions myOpenSubscriptionSessionOptions = new OpenSubscriptionSessionOptions();
-            
-            // With Listener
-            myOpenSubscriptionSessionOptions.ListenerURL = "http://127.0.0.1:8080";
-            OpenSubscriptionSessionResponse myOpenSubscriptionSessionResponse = await myConsumerPublicationService.OpenSubscriptionSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, myOpenSubscriptionSessionOptions, CancellationToken.None);
-            
-            //Simple
-            //OpenSubscriptionSessionResponse myOpenSubscriptionSessionResponse = myConsumerPublicationService.OpenSubscriptionSession(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text);
 
+            //// With Listener
+            //myOpenSubscriptionSessionOptions.ListenerURL = "http://127.0.0.1:8080";
+
+            //// With Filter
+            //FilterExpression myFilterExpression = new FilterExpression()
+            //{
+            //    ApplicableMediaTypes = new List<string>
+            //    {
+            //        "application/json"
+            //    },
+            //    ExpressionString = new ExpressionString
+            //    {
+            //        Expression = "$.DataArea.Show.Measurement[?(@.value > 100)]",
+            //        Language = "JsonPath",
+            //        LanguageVersion = "1.0"
+            //    }
+            //};
+
+            //myOpenSubscriptionSessionOptions.FilterExpressions.Add(myFilterExpression);
+
+
+            //OpenSubscriptionSessionResponse myOpenSubscriptionSessionResponse = await myConsumerPublicationService.OpenSubscriptionSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, myOpenSubscriptionSessionOptions, CancellationToken.None);
+
+            //Simple
+            OpenSubscriptionSessionResponse myOpenSubscriptionSessionResponse = await myConsumerPublicationService.OpenSubscriptionSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, CancellationToken.None);
+           
             //ISBM Adapter Response
             textBoxStatusCode.Text = myOpenSubscriptionSessionResponse.StatusCode.ToString();
             textBoxReasonPhrase.Text = myOpenSubscriptionSessionResponse.ReasonPhrase;

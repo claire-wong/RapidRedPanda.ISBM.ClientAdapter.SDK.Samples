@@ -38,6 +38,12 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(NuGetPackageRoot)newtonsoft.json\13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RapidRedPanda.ISBM.ClientAdapter">
+      <HintPath>$(NuGetPackageRoot)rapidredpanda.isbm.clientadapter\2.2.0\lib\netstandard2.0\RapidRedPanda.ISBM.ClientAdapter.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -86,7 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.2" />
+    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.2.0" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

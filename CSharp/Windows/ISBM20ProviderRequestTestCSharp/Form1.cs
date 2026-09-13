@@ -1,15 +1,16 @@
-﻿/* Purpose: This is a simple application that acts as an ISBM publication Provider.
- *          It demonstrates the idea of using an ISBM Client Adapter to post publication 
- *          to an ISBM Server Adapter. It should be interoperable with any ISBM compatible
- *          adapters regardless of the actual service bus that delivers the messages.  
- *          
+﻿/*
+ * Purpose: This is a simple application that acts as an ISBM Provider Request client.
+ * It demonstrates using an ISBM Client Adapter to open a Provider Request session,
+ * read requests, post responses, remove processed requests, and close the session
+ * with an ISBM Server Adapter. It should be interoperable with any ISBM-compatible
+ * adapter regardless of the message transport or service bus implementation.
+ *
  * Author: Claire Wong
- * Date Created:  2022/08/13
- * 
- * (c) 2022
- * This code is licensed under MIT license
- * 
-*/
+ * Originally created: 2022/08/13
+ * Updated: 2026
+ *
+ * Licensed under the MIT License.
+ */
 
 using System;
 using System.Collections.Generic;

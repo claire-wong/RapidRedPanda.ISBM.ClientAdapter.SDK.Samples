@@ -1,25 +1,16 @@
-﻿/* Purpose: This is a simple application that acts as an ISBM publication Provider.
- *          It demonstrates an IoT device using an ISBM Client Adapter to post-publication
- *          to an ISBM Server Adapter. It is interoperable with any ISBM compatible adapters
- *          regardless of the actual service bus that delivers the messages.
- *          
- * Remarks: 1. This is a .NET 8 project that targets Raspberry Pi OS for deployment.
- *          2. This demo does not close publication session for simpliclty. It behaves as power
- *             loss when the program exits. 
- *          
- * Author: Pak Wong
- * Date Created:  2022/08/31
- * 
- * Version Upgrade
- * 
- * Remarks: 1. The demo now provides a graceful exit for the program. Please follow the on-screen instructions.
- *                                  
- * Modified By : Claire Wong
- * Date Modified : 2023/12/23
- * 
- * (c) 2022
- * This code is licensed under MIT license
-*/
+﻿/*
+ * Purpose: This is a simple application that acts as an ISBM Publication Provider.
+ * It demonstrates using an ISBM Client Adapter to open a Publication session,
+ * post publications to an ISBM Server Adapter, and close the Publication session
+ * during graceful shutdown. It should be interoperable with any ISBM-compatible
+ * adapter regardless of the message transport or service bus implementation.
+ *
+ * Author: Claire Wong
+ * Originally created: 2022/08/31
+ * Updated: 2026
+ *
+ * Licensed under the MIT License.
+ */
 
 using System;
 using System.Threading;

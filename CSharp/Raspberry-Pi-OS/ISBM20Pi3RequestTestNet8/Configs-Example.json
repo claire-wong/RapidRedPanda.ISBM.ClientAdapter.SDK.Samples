@@ -1,0 +1,8 @@
+{
+  "hostName": "https://localhost:44384/isbm/2.0",
+  "channelId": "/Channel one",
+  "topic": "OIIE:S32:V1.1/CCOM-JSON:GetMeasurements:V1.0",
+  "authentication": 0,
+  "userName": "",
+  "password": ""
+}

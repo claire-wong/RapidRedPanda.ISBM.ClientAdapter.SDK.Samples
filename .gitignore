@@ -355,3 +355,6 @@ MigrationBackup/
 
 # Local configuration files
 **/Configs.json
+
+# Generated release packages
+/artifacts/releases/

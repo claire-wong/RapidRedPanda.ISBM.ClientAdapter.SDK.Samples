@@ -139,7 +139,7 @@ The ISBM request-response model is in asynchronous mode, which means that the se
 The C# toolkit samples in this repository are aligned with the released NuGet package:
 
 ```xml
-<PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.2" />
+<PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.2.0" />
 ```
 
 The samples are intended to show how real applications consume the public ClientAdapter API from NuGet. They do not require an adjacent ClientAdapter source repository or locally copied ClientAdapter DLLs.

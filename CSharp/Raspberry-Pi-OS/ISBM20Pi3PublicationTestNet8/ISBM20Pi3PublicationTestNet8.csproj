@@ -2,27 +2,24 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyVersion>0.2.0.0</AssemblyVersion>
     <FileVersion>0.2.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Packages\**" />
-    <EmbeddedResource Remove="Packages\**" />
-    <None Remove="Packages\**" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.1.2" />
+    <PackageReference Include="RapidRedPanda.ISBM.ClientAdapter" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Configs.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="ShowMeasurements.json">
+    <None Update="SyncMeasurements.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

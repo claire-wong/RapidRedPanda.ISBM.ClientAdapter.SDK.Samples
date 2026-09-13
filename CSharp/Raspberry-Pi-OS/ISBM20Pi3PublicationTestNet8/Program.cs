@@ -3,7 +3,7 @@
  *          to an ISBM Server Adapter. It is interoperable with any ISBM compatible adapters
  *          regardless of the actual service bus that delivers the messages.
  *          
- * Remarks: 1. This is an .Net Core 3.1 project that targets Raspberry Pi OS for deployment.
+ * Remarks: 1. This is a .NET 8 project that targets Raspberry Pi OS for deployment.
  *          2. This demo does not close publication session for simpliclty. It behaves as power
  *             loss when the program exits. 
  *          
@@ -29,7 +29,7 @@ using RapidRedPanda.ISBM.ClientAdapter.ResponseType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ISBM20Pi3TestCore21
+namespace ISBM20Pi3PublicationTestNet8
 {
     class Program
     {

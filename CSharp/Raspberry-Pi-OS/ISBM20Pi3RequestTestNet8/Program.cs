@@ -3,7 +3,7 @@
  *          Request Consumer to an ISBM Server Adapter. It is interoperable with any ISBM compatible
  *          adapters regardless of the actual service bus that delivers the messages.
  *          
- * Remarks: 1. This is an .Net Core 3.1 project that targets Raspberry Pi OS for deployment.
+ * Remarks: 1. This is a .NET 8 project that targets Raspberry Pi OS for deployment.
  *          2. Please close Request Provider Session to maintain best pracitce as the session is
  *             no longer needed. 
  *          
@@ -23,7 +23,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 
-namespace ISBM20Pi3RequestTestCore31
+namespace ISBM20Pi3RequestTestNet8
 {
     class Program
     {
@@ -46,7 +46,7 @@ namespace ISBM20Pi3RequestTestCore31
             SetConfigurations();
             GetBODTemplate();
 
-            Console.WriteLine("Welcome to .Net Core 3.1 ISBM 2.0 Client Adapter Test Program!");
+            Console.WriteLine("Welcome to .NET 8 ISBM 2.0 Client Adapter Test Program!");
             Console.WriteLine("This program will serve as Request Provider.");
             Console.WriteLine(" ");
 

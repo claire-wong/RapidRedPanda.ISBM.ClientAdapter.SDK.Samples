@@ -353,4 +353,5 @@ MigrationBackup/
 /CSharp/ValidationRunner/
 /CSharp/NuGet.config
 
-CSharp/Windows-10-IoT_Core/ISBM-2.0-Pi3-Test-CSharp/Assets/Configs.json
+# Local configuration files
+**/Configs.json

@@ -201,6 +201,10 @@ The flow diagrams above show protocol and message sequence. The diagram below sh
 
 ![Publication-Subscription Client Testing](Documents/Images/Publication_Subscription_Client_Testing.png)
 
+### Request-Response Client Testing
+
+![Request-Response Client Testing](Documents/Images/Request_Response_Client_Testing.png)
+
 ### Use Cases
 
 #### 1. Example of using Publication-Subscription model:  [Smart Agriculture Monitoring System](Documents/Use_Cases/Smart-Agriculture-Monitoring-System.md) 

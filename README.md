@@ -214,11 +214,13 @@ The flow diagrams above show protocol and message sequence. The diagram below sh
 ## Before Running the Program
 
 1. Make an ISBM 2.0-compatible server available.
-2. Restore NuGet dependencies. Visual Studio can restore automatically, or you can run `dotnet restore` / MSBuild restore for the selected project.
-3. Copy `Configs-Example.json` to `Configs.json` for the sample you want to run.
-4. Update `hostName`, `channelId`, `topic`, `authentication`, `userName`, and `password`.
-5. Keep `Configs.json` local; do not commit it.
-6. Build and run the desired sample.
+2. Extract the SDK to a reasonably short local path before opening the legacy Windows .NET Framework samples.
+3. For Windows samples, open the `.sln` file in Visual Studio, restore NuGet packages, and rebuild the solution.
+4. For Raspberry Pi OS samples, restore NuGet packages and build or publish the selected project with the .NET SDK.
+5. Copy `Configs-Example.json` to `Configs.json` for the sample you want to run.
+6. Update `hostName`, `channelId`, `topic`, `authentication`, `userName`, and `password`.
+7. Keep `Configs.json` local; do not commit it.
+8. Build and run the desired sample.
 
 `localhost` means the machine running the sample. If the sample runs on Raspberry Pi and the ISBM server runs on another machine, use a reachable hostname or IP address instead.
 

@@ -104,8 +104,22 @@ function Get-RelativePath {
         [Parameter(Mandatory = $true)][string]$TargetPath
     )
 
-    $baseUri = [System.Uri]((Resolve-Path -LiteralPath $BasePath).Path.TrimEnd('\') + '\')
-    $targetUri = [System.Uri]((Resolve-Path -LiteralPath $TargetPath).Path)
+    $baseFullPath = if (Test-Path -LiteralPath $BasePath) {
+        (Resolve-Path -LiteralPath $BasePath).Path
+    }
+    else {
+        [System.IO.Path]::GetFullPath($BasePath)
+    }
+
+    $targetFullPath = if (Test-Path -LiteralPath $TargetPath) {
+        (Resolve-Path -LiteralPath $TargetPath).Path
+    }
+    else {
+        [System.IO.Path]::GetFullPath($TargetPath)
+    }
+
+    $baseUri = [System.Uri]($baseFullPath.TrimEnd('\') + '\')
+    $targetUri = [System.Uri]($targetFullPath)
     return [System.Uri]::UnescapeDataString($baseUri.MakeRelativeUri($targetUri).ToString())
 }
 

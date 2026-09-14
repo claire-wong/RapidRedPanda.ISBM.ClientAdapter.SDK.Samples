@@ -27,20 +27,43 @@ namespace ISBM20ChannelManagementTestCSharp
 {
     public partial class FormMain : Form
     {
-        private ChannelManagementService myChannelManagementService = new ChannelManagementService();
+        private ChannelManagementService myChannelManagementService;
 
         public FormMain()
         {
             InitializeComponent();
+
+            if (!IsDesignTime())
+            {
+                myChannelManagementService = new ChannelManagementService();
+            }
+        }
+
+        private ChannelManagementService ChannelManagementService
+        {
+            get
+            {
+                if (myChannelManagementService == null)
+                {
+                    myChannelManagementService = new ChannelManagementService();
+                }
+
+                return myChannelManagementService;
+            }
+        }
+
+        private bool IsDesignTime()
+        {
+            return DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime;
         }
 
         private async void buttonGetChannels_Click(object sender, EventArgs e)
         {
             dataGridViewChannels.DataSource = null;
 
-            myChannelManagementService.Credential.Username = textBoxUserName.Text;
-            myChannelManagementService.Credential.Password = textBoxPassword.Text;
-            GetChannelsResponse myGetChannelsResponse = await myChannelManagementService.GetChannelsAsync(textBoxHostName.Text, CancellationToken.None);
+            ChannelManagementService.Credential.Username = textBoxUserName.Text;
+            ChannelManagementService.Credential.Password = textBoxPassword.Text;
+            GetChannelsResponse myGetChannelsResponse = await ChannelManagementService.GetChannelsAsync(textBoxHostName.Text, CancellationToken.None);
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myGetChannelsResponse.StatusCode.ToString();
@@ -87,9 +110,9 @@ namespace ISBM20ChannelManagementTestCSharp
         {
             dataGridViewChannels.DataSource = null;
 
-            myChannelManagementService.Credential.Username = textBoxUserName.Text;
-            myChannelManagementService.Credential.Password = textBoxPassword.Text;
-            GetChannelResponse myGetChannelResponse = await myChannelManagementService.GetChannelAsync(textBoxHostName.Text, textBoxChannelId.Text, CancellationToken.None);
+            ChannelManagementService.Credential.Username = textBoxUserName.Text;
+            ChannelManagementService.Credential.Password = textBoxPassword.Text;
+            GetChannelResponse myGetChannelResponse = await ChannelManagementService.GetChannelAsync(textBoxHostName.Text, textBoxChannelId.Text, CancellationToken.None);
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myGetChannelResponse.StatusCode.ToString();
@@ -153,17 +176,17 @@ namespace ISBM20ChannelManagementTestCSharp
                 return;
             }
 
-            myChannelManagementService.Credential.Username = textBoxUserName.Text;
-            myChannelManagementService.Credential.Password = textBoxPassword.Text;
+            ChannelManagementService.Credential.Username = textBoxUserName.Text;
+            ChannelManagementService.Credential.Password = textBoxPassword.Text;
 
             CreateChannelResponse myCreateChannelResponse = new CreateChannelResponse();
             if (myCreateChannelOptions.SecurityTokens.Count > 0)
             {
-                myCreateChannelResponse = await myChannelManagementService.CreateChannelAsync(textBoxHostName.Text, channelId, channelType, description, myCreateChannelOptions, CancellationToken.None);
+                myCreateChannelResponse = await ChannelManagementService.CreateChannelAsync(textBoxHostName.Text, channelId, channelType, description, myCreateChannelOptions, CancellationToken.None);
             }
             else
             {
-                myCreateChannelResponse = await myChannelManagementService.CreateChannelAsync(textBoxHostName.Text, channelId, channelType, description, CancellationToken.None);
+                myCreateChannelResponse = await ChannelManagementService.CreateChannelAsync(textBoxHostName.Text, channelId, channelType, description, CancellationToken.None);
             }    
 
             //ISBM Adapter Response
@@ -227,10 +250,10 @@ namespace ISBM20ChannelManagementTestCSharp
                 }
             }
 
-            myChannelManagementService.Credential.Username = textBoxUserName.Text;
-            myChannelManagementService.Credential.Password = textBoxPassword.Text;
+            ChannelManagementService.Credential.Username = textBoxUserName.Text;
+            ChannelManagementService.Credential.Password = textBoxPassword.Text;
 
-            AddSecurityTokensResponse myAddSecurityTokensResponse = await myChannelManagementService.AddSecurityTokensAsync(textBoxHostName.Text, channelId, myAddSecurityTokensOptions, CancellationToken.None);
+            AddSecurityTokensResponse myAddSecurityTokensResponse = await ChannelManagementService.AddSecurityTokensAsync(textBoxHostName.Text, channelId, myAddSecurityTokensOptions, CancellationToken.None);
            
             //ISBM Adapter Response
             textBoxStatusCode.Text = myAddSecurityTokensResponse.StatusCode.ToString();
@@ -273,10 +296,10 @@ namespace ISBM20ChannelManagementTestCSharp
                 }
             }
 
-            myChannelManagementService.Credential.Username = textBoxUserName.Text;
-            myChannelManagementService.Credential.Password = textBoxPassword.Text;
+            ChannelManagementService.Credential.Username = textBoxUserName.Text;
+            ChannelManagementService.Credential.Password = textBoxPassword.Text;
 
-            RemoveSecurityTokensResponse myRemoveSecurityTokensResponse = await myChannelManagementService.RemoveSecurityTokensAsync(textBoxHostName.Text, channelId, myRemoveSecurityTokensOptions, CancellationToken.None);
+            RemoveSecurityTokensResponse myRemoveSecurityTokensResponse = await ChannelManagementService.RemoveSecurityTokensAsync(textBoxHostName.Text, channelId, myRemoveSecurityTokensOptions, CancellationToken.None);
            
             //ISBM Adapter Response
             textBoxStatusCode.Text = myRemoveSecurityTokensResponse.StatusCode.ToString();
@@ -292,10 +315,10 @@ namespace ISBM20ChannelManagementTestCSharp
                 return;
             }
 
-            myChannelManagementService.Credential.Username = textBoxUserName.Text;
-            myChannelManagementService.Credential.Password = textBoxPassword.Text;
+            ChannelManagementService.Credential.Username = textBoxUserName.Text;
+            ChannelManagementService.Credential.Password = textBoxPassword.Text;
             //myChannelManagementService.ISBMServerType = ISBM21ClientAdapter.Enums.ServerType.IIS;
-            DeleteChannelResponse myDeleteChannelResponse = await myChannelManagementService.DeleteChannelAsync(textBoxHostName.Text, textBoxChannelId.Text, CancellationToken.None);
+            DeleteChannelResponse myDeleteChannelResponse = await ChannelManagementService.DeleteChannelAsync(textBoxHostName.Text, textBoxChannelId.Text, CancellationToken.None);
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myDeleteChannelResponse.StatusCode.ToString();

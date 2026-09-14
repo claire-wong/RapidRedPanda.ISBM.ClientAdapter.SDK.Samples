@@ -589,7 +589,8 @@ function Assert-HtmlReferences {
             if ($pathPart.Length -eq 0) {
                 continue
             }
-            if (-not (Test-Path -LiteralPath (Join-Path $htmlDirectory $pathPart))) {
+            $decodedPathPart = [System.Uri]::UnescapeDataString($pathPart)
+            if (-not (Test-Path -LiteralPath (Join-Path $htmlDirectory $decodedPathPart))) {
                 throw "Generated HTML reference does not resolve from '$htmlPath': $reference"
             }
         }

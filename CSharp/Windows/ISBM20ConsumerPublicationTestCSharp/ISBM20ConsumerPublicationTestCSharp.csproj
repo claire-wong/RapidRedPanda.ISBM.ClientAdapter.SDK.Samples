@@ -39,7 +39,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RapidRedPanda.ISBM.ClientAdapter">
-      <HintPath>$(NuGetPackageRoot)rapidredpanda.isbm.clientadapter\2.2.0\lib\netstandard2.0\RapidRedPanda.ISBM.ClientAdapter.dll</HintPath>
+      <HintPath>$(NuGetPackageRoot)\rapidredpanda.isbm.clientadapter\2.2.0\lib\netstandard2.0\RapidRedPanda.ISBM.ClientAdapter.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />

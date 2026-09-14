@@ -55,6 +55,8 @@ The C# samples are aligned with the released ClientAdapter package:
 
 The samples consume the public ClientAdapter API from NuGet. They do not require an adjacent ClientAdapter source repository or locally copied ClientAdapter DLLs.
 
+For service-by-service API usage, session lifecycles, payload handling, and complete workflows, see the [RapidRedPanda ISBM Interface Coding Guide](Documents/RapidRedPanda-ISBM-Coding-Guide.md).
+
 ## Sample Platforms
 
 ### Windows Samples

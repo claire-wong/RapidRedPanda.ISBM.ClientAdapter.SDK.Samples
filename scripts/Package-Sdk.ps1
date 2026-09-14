@@ -667,7 +667,7 @@ function Assert-ZipMatchesManifest {
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     $zip = [System.IO.Compression.ZipFile]::OpenRead($ZipPath)
     try {
-        $zipEntries = @($zip.Entries | Where-Object { $_.FullName -notlike '*/' } | ForEach-Object { $_.FullName.TrimEnd('/') } | Sort-Object)
+        $zipEntries = @($zip.Entries | Where-Object { $_.FullName -notlike '*/' } | ForEach-Object { Convert-ToPackagePath ($_.FullName.TrimEnd('/', '\')) } | Sort-Object)
     }
     finally {
         $zip.Dispose()

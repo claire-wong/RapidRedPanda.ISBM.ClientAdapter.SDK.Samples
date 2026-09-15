@@ -62,7 +62,7 @@
             this.textBoxHostName.Name = "textBoxHostName";
             this.textBoxHostName.Size = new System.Drawing.Size(548, 26);
             this.textBoxHostName.TabIndex = 97;
-            this.textBoxHostName.Text = "https://localhost:44384/isbm/2.0";
+            this.textBoxHostName.Text = "Your ISBM Server Adapter Host Address";
             // 
             // labelHostName
             // 

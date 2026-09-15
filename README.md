@@ -224,6 +224,8 @@ The flow diagrams above show protocol and message sequence. The diagram below sh
 7. Keep `Configs.json` local; do not commit it.
 8. Build and run the desired sample.
 
+The server address must include the ISBM 2.0 base path `/isbm/2.0`, for example `https://your-server-host/isbm/2.0`. `https://your-server-host` by itself is incomplete for these samples.
+
 `localhost` means the machine running the sample. If the sample runs on Raspberry Pi and the ISBM server runs on another machine, use a reachable hostname or IP address instead.
 
 The desktop Provider Publication, Consumer Request, and Provider Request samples include a **Media Type** field for posting payloads:

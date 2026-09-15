@@ -1,5 +1,5 @@
 {
-  "hostName": "https://localhost:44384/isbm/2.0",
+  "hostName": "https://your-server-host/isbm/2.0",
   "channelId": "/Channel one",
   "topic": "OIIE:S30:V1.1/CCOM-JSON:SyncMeasurements:V1.0",
   "authentication": 0,

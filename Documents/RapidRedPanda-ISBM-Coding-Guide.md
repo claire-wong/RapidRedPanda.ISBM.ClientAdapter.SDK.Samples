@@ -126,13 +126,13 @@ The Windows samples are legacy WinForms projects intended for Visual Studio 2022
 
 ### Host Address
 
-The `hostAddress` parameter is the base ISBM Server Adapter address, for example:
+The `hostAddress` parameter is the ISBM 2.0 service root. The server address must include the ISBM 2.0 base path `/isbm/2.0`, for example:
 
 ```csharp
-string hostAddress = "https://localhost:44384/isbm/2.0";
+string hostAddress = "https://your-server-host/isbm/2.0";
 ```
 
-Use an address reachable from the machine running the client. `localhost` means the client machine itself.
+Use an address reachable from the machine running the client. `https://your-server-host` by itself is incomplete for these samples. `localhost` means the client machine itself.
 
 ### Channel ID
 

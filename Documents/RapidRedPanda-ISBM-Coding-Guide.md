@@ -1495,6 +1495,13 @@ PostRequestResponse postResponse =
 3. Update `hostName`, `channelId`, `topic`, `authentication`, `userName`, and `password`.
 4. Build, run, or publish the selected project.
 
+The packaged framework-dependent Raspberry Pi OS sample runtime includes a Linux ARM apphost for direct execution, but the .NET 8 runtime must already be installed on the Raspberry Pi:
+
+```bash
+chmod +x ISBM20Pi3PublicationTestNet8
+./ISBM20Pi3PublicationTestNet8
+```
+
 ## Troubleshooting
 
 ### Unresolved NuGet References

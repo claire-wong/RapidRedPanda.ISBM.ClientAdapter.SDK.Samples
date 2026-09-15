@@ -512,13 +512,18 @@ function Assert-PiFrameworkRuntime {
         [Parameter(Mandatory = $true)][string]$Payload
     )
 
-    foreach ($file in @("$ProjectName.dll", "$ProjectName.deps.json", "$ProjectName.runtimeconfig.json", 'RapidRedPanda.ISBM.ClientAdapter.dll', 'Newtonsoft.Json.dll', 'Configs-Example.json', $Payload)) {
+    foreach ($file in @($ProjectName, "$ProjectName.dll", "$ProjectName.deps.json", "$ProjectName.runtimeconfig.json", 'RapidRedPanda.ISBM.ClientAdapter.dll', 'Newtonsoft.Json.dll', 'Configs-Example.json', $Payload)) {
         if (-not (Test-Path -LiteralPath (Join-Path $Path $file))) {
             throw "Raspberry Pi framework-dependent runtime is missing $file for $ProjectName."
         }
     }
-    if (Test-Path -LiteralPath (Join-Path $Path $ProjectName)) {
-        throw "Raspberry Pi framework-dependent runtime should not include an apphost for $ProjectName."
+    if (Test-Path -LiteralPath (Join-Path $Path "$ProjectName.exe")) {
+        throw "Raspberry Pi framework-dependent runtime should not include a Windows .exe apphost for $ProjectName."
+    }
+    foreach ($file in @('libcoreclr.so', 'libhostfxr.so', 'libhostpolicy.so')) {
+        if (Test-Path -LiteralPath (Join-Path $Path $file)) {
+            throw "Raspberry Pi framework-dependent runtime should not include self-contained runtime file $file for $ProjectName."
+        }
     }
 }
 
@@ -554,8 +559,8 @@ function Stage-PiRuntime {
         $frameworkOutput = Join-Path $BuildRoot "runtime-build\pi-framework\$($project.Name)"
         Invoke-Checked -FilePath 'dotnet' -Arguments @(
             'publish', $projectPath, '-c', 'Release',
+            '-r', 'linux-arm',
             '--self-contained', 'false',
-            '-p:UseAppHost=false',
             '-o', $frameworkOutput,
             '-v', 'minimal'
         ) | Out-Null

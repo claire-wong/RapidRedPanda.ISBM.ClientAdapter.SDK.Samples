@@ -228,6 +228,13 @@ The server address must include the ISBM 2.0 base path `/isbm/2.0`, for example 
 
 `localhost` means the machine running the sample. If the sample runs on Raspberry Pi and the ISBM server runs on another machine, use a reachable hostname or IP address instead.
 
+The packaged Raspberry Pi OS framework-dependent sample runtime includes a Linux ARM apphost for direct execution, but the .NET 8 runtime must already be installed on the Raspberry Pi:
+
+```bash
+chmod +x ISBM20Pi3PublicationTestNet8
+./ISBM20Pi3PublicationTestNet8
+```
+
 The desktop Provider Publication, Consumer Request, and Provider Request samples include a **Media Type** field for posting payloads:
 
 - Leave **Media Type** blank to use native JSON object mode. The payload must be a JSON object, for example `{"value":42}`.

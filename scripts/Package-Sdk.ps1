@@ -285,10 +285,12 @@ function Convert-MarkdownToHtml {
     $body = New-Object System.Collections.Generic.List[string]
     $inCode = $false
     $inList = $false
+    $inTable = $false
 
     foreach ($line in $lines) {
         if ($line -match '^\s*```') {
             if ($inList) { $body.Add('</ul>'); $inList = $false }
+            if ($inTable) { $body.Add('</tbody></table>'); $inTable = $false }
             if ($inCode) { $body.Add('</code></pre>'); $inCode = $false }
             else { $body.Add('<pre><code>'); $inCode = $true }
             continue
@@ -301,11 +303,13 @@ function Convert-MarkdownToHtml {
 
         if ($line.Trim().Length -eq 0) {
             if ($inList) { $body.Add('</ul>'); $inList = $false }
+            if ($inTable) { $body.Add('</tbody></table>'); $inTable = $false }
             continue
         }
 
         if ($line -match '^(#{1,6})\s+(.+)$') {
             if ($inList) { $body.Add('</ul>'); $inList = $false }
+            if ($inTable) { $body.Add('</tbody></table>'); $inTable = $false }
             $level = $matches[1].Length
             $headingText = $matches[2].Trim()
             $content = Convert-InlineMarkdown -Text $headingText -MarkdownDirectory $markdownDirectory -HtmlDirectory $htmlDirectory
@@ -313,7 +317,45 @@ function Convert-MarkdownToHtml {
             continue
         }
 
+        if ($line -match '^\s*\|(.+)\|\s*$') {
+            $cells = @($line.Trim().Trim('|').Split('|') | ForEach-Object { $_.Trim() })
+            $isSeparator = $true
+            foreach ($cell in $cells) {
+                if ($cell -notmatch '^:?-{3,}:?$') {
+                    $isSeparator = $false
+                    break
+                }
+            }
+
+            if ($isSeparator) {
+                if ($inTable) { $body.Add('</thead><tbody>') }
+                continue
+            }
+
+            if ($inList) { $body.Add('</ul>'); $inList = $false }
+            if (-not $inTable) {
+                $body.Add('<table>')
+                $body.Add('<thead><tr>')
+                foreach ($cell in $cells) {
+                    $content = Convert-InlineMarkdown -Text $cell -MarkdownDirectory $markdownDirectory -HtmlDirectory $htmlDirectory
+                    $body.Add("<th>$content</th>")
+                }
+                $body.Add('</tr>')
+                $inTable = $true
+            }
+            else {
+                $body.Add('<tr>')
+                foreach ($cell in $cells) {
+                    $content = Convert-InlineMarkdown -Text $cell -MarkdownDirectory $markdownDirectory -HtmlDirectory $htmlDirectory
+                    $body.Add("<td>$content</td>")
+                }
+                $body.Add('</tr>')
+            }
+            continue
+        }
+
         if ($line -match '^\s*(?:[-*]|\d+\.)\s+(.+)$') {
+            if ($inTable) { $body.Add('</tbody></table>'); $inTable = $false }
             if (-not $inList) { $body.Add('<ul>'); $inList = $true }
             $content = Convert-InlineMarkdown -Text $matches[1].Trim() -MarkdownDirectory $markdownDirectory -HtmlDirectory $htmlDirectory
             $body.Add("<li>$content</li>")
@@ -321,11 +363,13 @@ function Convert-MarkdownToHtml {
         }
 
         if ($inList) { $body.Add('</ul>'); $inList = $false }
+        if ($inTable) { $body.Add('</tbody></table>'); $inTable = $false }
         $paragraph = Convert-InlineMarkdown -Text $line.Trim() -MarkdownDirectory $markdownDirectory -HtmlDirectory $htmlDirectory
         $body.Add("<p>$paragraph</p>")
     }
 
     if ($inList) { $body.Add('</ul>') }
+    if ($inTable) { $body.Add('</tbody></table>') }
     if ($inCode) { $body.Add('</code></pre>') }
 
     $title = [System.Net.WebUtility]::HtmlEncode([System.IO.Path]::GetFileNameWithoutExtension($MarkdownPath))
@@ -334,7 +378,8 @@ function Convert-MarkdownToHtml {
         $navigation = @'
 <nav class="package-nav">
   <strong>Package navigation</strong>
-  <a href="README.md">README.md</a>
+  <a href="README.html">README</a>
+  <a href="Documents/RapidRedPanda-ISBM-Coding-Guide.html">Coding Guide</a>
   <a href="Documents/Use_Cases/Smart-Agriculture-Monitoring-System.html">Smart Agriculture</a>
   <a href="Documents/Use_Cases/Fleet_Management.html">Fleet Management</a>
   <a href="Documents/Use_Cases/Flood-Management.html">Flood Management</a>
@@ -359,6 +404,9 @@ function Convert-MarkdownToHtml {
     code { background: #f3f4f6; border-radius: 4px; padding: 0.1em 0.25em; }
     pre { background: #f3f4f6; border-radius: 6px; overflow-x: auto; padding: 16px; }
     pre code { background: transparent; padding: 0; }
+    table { border-collapse: collapse; margin: 16px 0; width: 100%; }
+    th, td { border: 1px solid #d8dee4; padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: #f6f8fa; }
     a { color: #0b63ce; }
     h1, h2, h3 { line-height: 1.2; }
     .package-nav { background: #f6f8fa; border: 1px solid #d8dee4; border-radius: 6px; display: flex; flex-wrap: wrap; gap: 10px 16px; margin-bottom: 28px; padding: 12px 14px; }
@@ -627,6 +675,7 @@ function Assert-RequiredPackageContent {
     if ($HtmlExpected) {
         foreach ($path in @(
             'README.html',
+            'Documents\RapidRedPanda-ISBM-Coding-Guide.html',
             'Documents\Use_Cases\Smart-Agriculture-Monitoring-System.html',
             'Documents\Use_Cases\Fleet_Management.html',
             'Documents\Use_Cases\Flood-Management.html'
@@ -776,6 +825,7 @@ try {
     if (-not $SkipHtml) {
         Convert-MarkdownToHtml -MarkdownPath (Join-Path $packageRoot 'README.md') -HtmlPath (Join-Path $packageRoot 'README.html') -AddNavigation
         foreach ($relativeMarkdown in @(
+            'Documents\RapidRedPanda-ISBM-Coding-Guide.md',
             'Documents\Use_Cases\Smart-Agriculture-Monitoring-System.md',
             'Documents\Use_Cases\Fleet_Management.md',
             'Documents\Use_Cases\Flood-Management.md'

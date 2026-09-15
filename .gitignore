@@ -348,4 +348,13 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-CSharp/Windows-10-IoT_Core/ISBM-2.0-Pi3-Test-CSharp/Assets/Configs.json
+
+# Local-only validation tooling and restore configuration
+/CSharp/ValidationRunner/
+/CSharp/NuGet.config
+
+# Local configuration files
+**/Configs.json
+
+# Generated release packages
+/artifacts/releases/

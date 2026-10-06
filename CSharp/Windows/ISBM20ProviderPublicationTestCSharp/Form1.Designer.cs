@@ -1,4 +1,4 @@
-﻿namespace ISBM21ProviderPublicationTestCSharp
+namespace ISBM21ProviderPublicationTestCSharp
 { 
     partial class Form1
     {
@@ -43,7 +43,7 @@
             this.textBoxMessageId = new System.Windows.Forms.TextBox();
             this.textBoxSessionId = new System.Windows.Forms.TextBox();
             this.textBoxTopic = new System.Windows.Forms.TextBox();
-            this.textBoxMediaType = new System.Windows.Forms.TextBox();
+            this.comboBoxMediaType = new System.Windows.Forms.ComboBox();
             this.textBoxChannelId = new System.Windows.Forms.TextBox();
             this.textBoxHostName = new System.Windows.Forms.TextBox();
             this.labelReasonPhrase = new System.Windows.Forms.Label();
@@ -210,14 +210,20 @@
             this.textBoxTopic.TabIndex = 97;
             this.textBoxTopic.Text = "OIIE:S30:V1.1/CCOM-JSON:SyncMeasurements:V1.0";
             // 
-            // textBoxMediaType
+            // comboBoxMediaType
             // 
-            this.textBoxMediaType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.textBoxMediaType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxMediaType.Location = new System.Drawing.Point(365, 213);
-            this.textBoxMediaType.Name = "textBoxMediaType";
-            this.textBoxMediaType.Size = new System.Drawing.Size(331, 26);
-            this.textBoxMediaType.TabIndex = 106;
+            this.comboBoxMediaType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.comboBoxMediaType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxMediaType.FormattingEnabled = true;
+            this.comboBoxMediaType.Items.AddRange(new object[] {
+            "application/json",
+            "application/xml",
+            "text/plain",
+            "application/octet-stream"});
+            this.comboBoxMediaType.Location = new System.Drawing.Point(365, 213);
+            this.comboBoxMediaType.Name = "comboBoxMediaType";
+            this.comboBoxMediaType.Size = new System.Drawing.Size(331, 26);
+            this.comboBoxMediaType.TabIndex = 106;
             // 
             // textBoxChannelId
             // 
@@ -425,7 +431,7 @@
             this.Controls.Add(this.textBoxMessageId);
             this.Controls.Add(this.textBoxSessionId);
             this.Controls.Add(this.textBoxTopic);
-            this.Controls.Add(this.textBoxMediaType);
+            this.Controls.Add(this.comboBoxMediaType);
             this.Controls.Add(this.textBoxChannelId);
             this.Controls.Add(this.textBoxHostName);
             this.Controls.Add(this.labelReasonPhrase);
@@ -463,7 +469,7 @@
         private System.Windows.Forms.TextBox textBoxMessageId;
         private System.Windows.Forms.TextBox textBoxSessionId;
         private System.Windows.Forms.TextBox textBoxTopic;
-        private System.Windows.Forms.TextBox textBoxMediaType;
+        private System.Windows.Forms.ComboBox comboBoxMediaType;
         private System.Windows.Forms.TextBox textBoxChannelId;
         private System.Windows.Forms.TextBox textBoxHostName;
         private System.Windows.Forms.Label labelReasonPhrase;

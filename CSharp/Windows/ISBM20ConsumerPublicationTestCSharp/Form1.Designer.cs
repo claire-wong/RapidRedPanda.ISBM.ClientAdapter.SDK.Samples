@@ -45,12 +45,14 @@
             this.textBoxMessageID = new System.Windows.Forms.TextBox();
             this.textBoxSessionId = new System.Windows.Forms.TextBox();
             this.textBoxTopic = new System.Windows.Forms.TextBox();
+            this.textBoxListenerURL = new System.Windows.Forms.TextBox();
             this.textBoxChannelId = new System.Windows.Forms.TextBox();
             this.textBoxHostName = new System.Windows.Forms.TextBox();
             this.labelMessage = new System.Windows.Forms.Label();
             this.labelStatusCode = new System.Windows.Forms.Label();
             this.labelResponse = new System.Windows.Forms.Label();
             this.labelSessionID = new System.Windows.Forms.Label();
+            this.labelListenerURL = new System.Windows.Forms.Label();
             this.labelTpoic = new System.Windows.Forms.Label();
             this.labelChannelID = new System.Windows.Forms.Label();
             this.labelHostName = new System.Windows.Forms.Label();
@@ -64,7 +66,7 @@
             // 
             // buttonRemove
             // 
-            this.buttonRemove.Location = new System.Drawing.Point(458, 522);
+            this.buttonRemove.Location = new System.Drawing.Point(458, 560);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(116, 41);
             this.buttonRemove.TabIndex = 115;
@@ -75,7 +77,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(455, 496);
+            this.label6.Location = new System.Drawing.Point(455, 534);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(38, 13);
             this.label6.TabIndex = 114;
@@ -83,7 +85,7 @@
             // 
             // buttonRead
             // 
-            this.buttonRead.Location = new System.Drawing.Point(338, 522);
+            this.buttonRead.Location = new System.Drawing.Point(338, 560);
             this.buttonRead.Name = "buttonRead";
             this.buttonRead.Size = new System.Drawing.Size(114, 41);
             this.buttonRead.TabIndex = 113;
@@ -94,7 +96,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(580, 496);
+            this.label5.Location = new System.Drawing.Point(580, 534);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(38, 13);
             this.label5.TabIndex = 112;
@@ -103,7 +105,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(335, 496);
+            this.label4.Location = new System.Drawing.Point(335, 534);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 111;
@@ -112,7 +114,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(213, 496);
+            this.label3.Location = new System.Drawing.Point(213, 534);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 110;
@@ -120,7 +122,7 @@
             // 
             // buttonCloseSession
             // 
-            this.buttonCloseSession.Location = new System.Drawing.Point(580, 522);
+            this.buttonCloseSession.Location = new System.Drawing.Point(580, 560);
             this.buttonCloseSession.Name = "buttonCloseSession";
             this.buttonCloseSession.Size = new System.Drawing.Size(116, 41);
             this.buttonCloseSession.TabIndex = 109;
@@ -130,7 +132,7 @@
             // 
             // buttonOpenSession
             // 
-            this.buttonOpenSession.Location = new System.Drawing.Point(216, 522);
+            this.buttonOpenSession.Location = new System.Drawing.Point(216, 560);
             this.buttonOpenSession.Name = "buttonOpenSession";
             this.buttonOpenSession.Size = new System.Drawing.Size(116, 41);
             this.buttonOpenSession.TabIndex = 108;
@@ -157,14 +159,14 @@
             this.textBoxBOD.Multiline = true;
             this.textBoxBOD.Name = "textBoxBOD";
             this.textBoxBOD.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxBOD.Size = new System.Drawing.Size(524, 500);
+            this.textBoxBOD.Size = new System.Drawing.Size(524, 538);
             this.textBoxBOD.TabIndex = 106;
             // 
             // textBoxResponse
             // 
             this.textBoxResponse.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.textBoxResponse.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxResponse.Location = new System.Drawing.Point(148, 329);
+            this.textBoxResponse.Location = new System.Drawing.Point(148, 367);
             this.textBoxResponse.Name = "textBoxResponse";
             this.textBoxResponse.Size = new System.Drawing.Size(548, 26);
             this.textBoxResponse.TabIndex = 105;
@@ -174,7 +176,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(19, 332);
+            this.label1.Location = new System.Drawing.Point(19, 370);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 20);
             this.label1.TabIndex = 104;
@@ -184,7 +186,7 @@
             // 
             this.textBoxReasonPhrase.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.textBoxReasonPhrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxReasonPhrase.Location = new System.Drawing.Point(148, 251);
+            this.textBoxReasonPhrase.Location = new System.Drawing.Point(148, 289);
             this.textBoxReasonPhrase.Multiline = true;
             this.textBoxReasonPhrase.Name = "textBoxReasonPhrase";
             this.textBoxReasonPhrase.Size = new System.Drawing.Size(548, 66);
@@ -194,7 +196,7 @@
             // 
             this.textBoxStatusCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.textBoxStatusCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxStatusCode.Location = new System.Drawing.Point(148, 213);
+            this.textBoxStatusCode.Location = new System.Drawing.Point(148, 251);
             this.textBoxStatusCode.Name = "textBoxStatusCode";
             this.textBoxStatusCode.Size = new System.Drawing.Size(69, 26);
             this.textBoxStatusCode.TabIndex = 102;
@@ -203,7 +205,7 @@
             // 
             this.textBoxMessageID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.textBoxMessageID.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxMessageID.Location = new System.Drawing.Point(148, 176);
+            this.textBoxMessageID.Location = new System.Drawing.Point(148, 214);
             this.textBoxMessageID.Name = "textBoxMessageID";
             this.textBoxMessageID.Size = new System.Drawing.Size(548, 26);
             this.textBoxMessageID.TabIndex = 101;
@@ -212,7 +214,7 @@
             // 
             this.textBoxSessionId.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.textBoxSessionId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSessionId.Location = new System.Drawing.Point(148, 138);
+            this.textBoxSessionId.Location = new System.Drawing.Point(148, 176);
             this.textBoxSessionId.Name = "textBoxSessionId";
             this.textBoxSessionId.Size = new System.Drawing.Size(548, 26);
             this.textBoxSessionId.TabIndex = 100;
@@ -226,6 +228,15 @@
             this.textBoxTopic.Size = new System.Drawing.Size(548, 26);
             this.textBoxTopic.TabIndex = 99;
             this.textBoxTopic.Text = "OIIE:S30:V1.1/CCOM-JSON:SyncMeasurements:V1.0";
+            //
+            // textBoxListenerURL
+            //
+            this.textBoxListenerURL.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.textBoxListenerURL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxListenerURL.Location = new System.Drawing.Point(148, 138);
+            this.textBoxListenerURL.Name = "textBoxListenerURL";
+            this.textBoxListenerURL.Size = new System.Drawing.Size(548, 26);
+            this.textBoxListenerURL.TabIndex = 124;
             // 
             // textBoxChannelId
             // 
@@ -252,7 +263,7 @@
             this.labelMessage.AutoSize = true;
             this.labelMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelMessage.ForeColor = System.Drawing.Color.Black;
-            this.labelMessage.Location = new System.Drawing.Point(19, 251);
+            this.labelMessage.Location = new System.Drawing.Point(19, 289);
             this.labelMessage.Name = "labelMessage";
             this.labelMessage.Size = new System.Drawing.Size(115, 20);
             this.labelMessage.TabIndex = 96;
@@ -263,7 +274,7 @@
             this.labelStatusCode.AutoSize = true;
             this.labelStatusCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelStatusCode.ForeColor = System.Drawing.Color.Black;
-            this.labelStatusCode.Location = new System.Drawing.Point(19, 216);
+            this.labelStatusCode.Location = new System.Drawing.Point(19, 254);
             this.labelStatusCode.Name = "labelStatusCode";
             this.labelStatusCode.Size = new System.Drawing.Size(98, 20);
             this.labelStatusCode.TabIndex = 95;
@@ -274,7 +285,7 @@
             this.labelResponse.AutoSize = true;
             this.labelResponse.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelResponse.ForeColor = System.Drawing.Color.Black;
-            this.labelResponse.Location = new System.Drawing.Point(19, 179);
+            this.labelResponse.Location = new System.Drawing.Point(19, 217);
             this.labelResponse.Name = "labelResponse";
             this.labelResponse.Size = new System.Drawing.Size(95, 20);
             this.labelResponse.TabIndex = 94;
@@ -285,11 +296,22 @@
             this.labelSessionID.AutoSize = true;
             this.labelSessionID.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSessionID.ForeColor = System.Drawing.Color.Black;
-            this.labelSessionID.Location = new System.Drawing.Point(19, 141);
+            this.labelSessionID.Location = new System.Drawing.Point(19, 179);
             this.labelSessionID.Name = "labelSessionID";
             this.labelSessionID.Size = new System.Drawing.Size(87, 20);
             this.labelSessionID.TabIndex = 93;
             this.labelSessionID.Text = "Session ID";
+            //
+            // labelListenerURL
+            //
+            this.labelListenerURL.AutoSize = true;
+            this.labelListenerURL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelListenerURL.ForeColor = System.Drawing.Color.Black;
+            this.labelListenerURL.Location = new System.Drawing.Point(19, 141);
+            this.labelListenerURL.Name = "labelListenerURL";
+            this.labelListenerURL.Size = new System.Drawing.Size(99, 20);
+            this.labelListenerURL.TabIndex = 125;
+            this.labelListenerURL.Text = "Listener URL";
             // 
             // labelTpoic
             // 
@@ -331,7 +353,7 @@
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(262, 410);
+            this.groupBox1.Location = new System.Drawing.Point(262, 448);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(434, 83);
             this.groupBox1.TabIndex = 123;
@@ -384,7 +406,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LemonChiffon;
-            this.ClientSize = new System.Drawing.Size(1254, 591);
+            this.ClientSize = new System.Drawing.Size(1254, 629);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonRemove);
             this.Controls.Add(this.label6);
@@ -402,6 +424,7 @@
             this.Controls.Add(this.textBoxStatusCode);
             this.Controls.Add(this.textBoxMessageID);
             this.Controls.Add(this.textBoxSessionId);
+            this.Controls.Add(this.textBoxListenerURL);
             this.Controls.Add(this.textBoxTopic);
             this.Controls.Add(this.textBoxChannelId);
             this.Controls.Add(this.textBoxHostName);
@@ -409,6 +432,7 @@
             this.Controls.Add(this.labelStatusCode);
             this.Controls.Add(this.labelResponse);
             this.Controls.Add(this.labelSessionID);
+            this.Controls.Add(this.labelListenerURL);
             this.Controls.Add(this.labelTpoic);
             this.Controls.Add(this.labelChannelID);
             this.Controls.Add(this.labelHostName);
@@ -439,6 +463,7 @@
         private System.Windows.Forms.TextBox textBoxStatusCode;
         private System.Windows.Forms.TextBox textBoxMessageID;
         private System.Windows.Forms.TextBox textBoxSessionId;
+        private System.Windows.Forms.TextBox textBoxListenerURL;
         private System.Windows.Forms.TextBox textBoxTopic;
         private System.Windows.Forms.TextBox textBoxChannelId;
         private System.Windows.Forms.TextBox textBoxHostName;
@@ -446,6 +471,7 @@
         private System.Windows.Forms.Label labelStatusCode;
         private System.Windows.Forms.Label labelResponse;
         private System.Windows.Forms.Label labelSessionID;
+        private System.Windows.Forms.Label labelListenerURL;
         private System.Windows.Forms.Label labelTpoic;
         private System.Windows.Forms.Label labelChannelID;
         private System.Windows.Forms.Label labelHostName;

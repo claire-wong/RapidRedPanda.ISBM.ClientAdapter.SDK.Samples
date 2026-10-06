@@ -43,33 +43,29 @@ namespace ISBM21ConsumerPublicationTestCSharp
             myConsumerPublicationService.Credential.Username = textBoxUserName.Text;
             myConsumerPublicationService.Credential.Password = textBoxPassword.Text;
 
-            OpenSubscriptionSessionOptions myOpenSubscriptionSessionOptions = new OpenSubscriptionSessionOptions();
+            string listenerURL = textBoxListenerURL.Text.Trim();
+            OpenSubscriptionSessionResponse myOpenSubscriptionSessionResponse;
 
-            //// With Listener
-            //myOpenSubscriptionSessionOptions.ListenerURL = "http://127.0.0.1:8080";
+            if (string.IsNullOrEmpty(listenerURL))
+            {
+                myOpenSubscriptionSessionResponse = await myConsumerPublicationService.OpenSubscriptionSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, CancellationToken.None);
+            }
+            else
+            {
+                if (!Uri.TryCreate(listenerURL, UriKind.Absolute, out Uri listenerUri) ||
+                    (listenerUri.Scheme != Uri.UriSchemeHttp && listenerUri.Scheme != Uri.UriSchemeHttps))
+                {
+                    MessageBox.Show("Listener URL must be a valid HTTP or HTTPS URL.", "Invalid Listener URL", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-            //// With Filter
-            //FilterExpression myFilterExpression = new FilterExpression()
-            //{
-            //    ApplicableMediaTypes = new List<string>
-            //    {
-            //        "application/json"
-            //    },
-            //    ExpressionString = new ExpressionString
-            //    {
-            //        Expression = "$.DataArea.Show.Measurement[?(@.value > 100)]",
-            //        Language = "JsonPath",
-            //        LanguageVersion = "1.0"
-            //    }
-            //};
+                OpenSubscriptionSessionOptions myOpenSubscriptionSessionOptions = new OpenSubscriptionSessionOptions
+                {
+                    ListenerURL = listenerURL
+                };
 
-            //myOpenSubscriptionSessionOptions.FilterExpressions.Add(myFilterExpression);
-
-
-            //OpenSubscriptionSessionResponse myOpenSubscriptionSessionResponse = await myConsumerPublicationService.OpenSubscriptionSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, myOpenSubscriptionSessionOptions, CancellationToken.None);
-
-            //Simple
-            OpenSubscriptionSessionResponse myOpenSubscriptionSessionResponse = await myConsumerPublicationService.OpenSubscriptionSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, CancellationToken.None);
+                myOpenSubscriptionSessionResponse = await myConsumerPublicationService.OpenSubscriptionSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, myOpenSubscriptionSessionOptions, CancellationToken.None);
+            }
            
             //ISBM Adapter Response
             textBoxStatusCode.Text = myOpenSubscriptionSessionResponse.StatusCode.ToString();

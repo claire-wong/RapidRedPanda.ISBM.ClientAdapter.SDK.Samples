@@ -358,3 +358,5 @@ MigrationBackup/
 
 # Generated release packages
 /artifacts/releases/
+
+.agents/

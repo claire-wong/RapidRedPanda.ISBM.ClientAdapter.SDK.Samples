@@ -1,4 +1,4 @@
-﻿/* Purpose: This is a simple application that acts as an ISBM publication Provider.
+/* Purpose: This is a simple application that acts as an ISBM publication Provider.
  *          It demonstrates the idea of using an ISBM Client Adapter to post publication 
  *          to an ISBM Server Adapter. It should be interoperable with any ISBM compatible
  *          adapters regardless of the actual service bus that delivers the messages.  
@@ -79,7 +79,7 @@ namespace ISBM21ProviderPublicationTestCSharp
                 PostPublicationOptions myPostPublicationOptions = new PostPublicationOptions();
                 myPostPublicationOptions.Expiry = "P2D";
 
-                string mediaType = textBoxMediaType.Text.Trim();
+                string mediaType = comboBoxMediaType.Text.Trim();
                 if (!string.IsNullOrWhiteSpace(mediaType))
                 {
                     myPostPublicationOptions.MediaType = mediaType;

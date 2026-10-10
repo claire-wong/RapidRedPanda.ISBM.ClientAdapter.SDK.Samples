@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Purpose: This is a simple application that acts as an ISBM Provider Request client.
  * It demonstrates using an ISBM Client Adapter to open a Provider Request session,
  * read requests, post responses, remove processed requests, and close the session
@@ -51,14 +51,29 @@ namespace ISBM20ProviderRequestTestCSharp
             myProviderRequestService.Credential.Username = textBoxUserName.Text;
             myProviderRequestService.Credential.Password = textBoxPassword.Text;
 
-            OpenProviderRequestSessionOptions myOpenProviderRequestSessionOptions = new OpenProviderRequestSessionOptions();
+            string listenerURL = textBoxListenerURL.Text.Trim();
+            OpenProviderRequestSessionResponse mProviderRequestServiceResponse;
 
-            // With Listener
-            myOpenProviderRequestSessionOptions.ListenerURL = "http://127.0.0.1:8080";
-            OpenProviderRequestSessionResponse mProviderRequestServiceResponse = await myProviderRequestService.OpenProviderRequestSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, myOpenProviderRequestSessionOptions, CancellationToken.None);
+            if (string.IsNullOrEmpty(listenerURL))
+            {
+                mProviderRequestServiceResponse = await myProviderRequestService.OpenProviderRequestSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, CancellationToken.None);
+            }
+            else
+            {
+                if (!Uri.TryCreate(listenerURL, UriKind.Absolute, out Uri listenerUri) ||
+                    (listenerUri.Scheme != Uri.UriSchemeHttp && listenerUri.Scheme != Uri.UriSchemeHttps))
+                {
+                    MessageBox.Show("Listener URL must be a valid HTTP or HTTPS URL.", "Invalid Listener URL", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-            //Simple
-            //OpenProviderRequestSessionResponse mProviderRequestServiceResponse = myProviderRequestService.OpenProviderRequestSession(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text);
+                OpenProviderRequestSessionOptions myOpenProviderRequestSessionOptions = new OpenProviderRequestSessionOptions
+                {
+                    ListenerURL = listenerURL
+                };
+
+                mProviderRequestServiceResponse = await myProviderRequestService.OpenProviderRequestSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, textBoxTopic.Text, myOpenProviderRequestSessionOptions, CancellationToken.None);
+            }
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = mProviderRequestServiceResponse.StatusCode.ToString();
@@ -101,7 +116,7 @@ namespace ISBM20ProviderRequestTestCSharp
         {
             try
             {
-                string mediaType = textBoxMediaType.Text.Trim();
+                string mediaType = comboBoxMediaType.Text.Trim();
 
                 //Calling ISBM Adapter method
                 PostResponseResponse myPostResponseResponse;

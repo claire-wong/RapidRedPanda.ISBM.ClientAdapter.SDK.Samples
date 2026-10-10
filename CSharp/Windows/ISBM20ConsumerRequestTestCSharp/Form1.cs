@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Purpose: This is a simple application that acts as an ISBM Consumer Request client.
  * It demonstrates using an ISBM Client Adapter to open a Consumer Request session,
  * post requests, read and remove responses, and manage request expiration with an
@@ -50,14 +50,29 @@ namespace ISBM20ConsumerRequestTestCSharp
             myConsumerRequestService.Credential.Username = textBoxUserName.Text;
             myConsumerRequestService.Credential.Password = textBoxPassword.Text;
 
-            OpenConsumerRequestSessionOptions myOpenConsumerRequestSessionOptions = new OpenConsumerRequestSessionOptions();
+            string listenerURL = textBoxListenerURL.Text.Trim();
+            OpenConsumerRequestSessionResponse myOpenSubscriptionSessionResponse;
 
-            // With Listener
-            myOpenConsumerRequestSessionOptions.ListenerURL = "http://127.0.0.1:8080";
-            OpenConsumerRequestSessionResponse myOpenSubscriptionSessionResponse = await myConsumerRequestService.OpenConsumerRequestSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, myOpenConsumerRequestSessionOptions, CancellationToken.None);
+            if (string.IsNullOrEmpty(listenerURL))
+            {
+                myOpenSubscriptionSessionResponse = await myConsumerRequestService.OpenConsumerRequestSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, CancellationToken.None);
+            }
+            else
+            {
+                if (!Uri.TryCreate(listenerURL, UriKind.Absolute, out Uri listenerUri) ||
+                    (listenerUri.Scheme != Uri.UriSchemeHttp && listenerUri.Scheme != Uri.UriSchemeHttps))
+                {
+                    MessageBox.Show("Listener URL must be a valid HTTP or HTTPS URL.", "Invalid Listener URL", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-            //Simple
-            //OpenConsumerRequestSessionResponse myOpenSubscriptionSessionResponse = myConsumerRequestService.OpenConsumerRequestSession(textBoxHostName.Text, textBoxChannelId.Text);
+                OpenConsumerRequestSessionOptions myOpenConsumerRequestSessionOptions = new OpenConsumerRequestSessionOptions
+                {
+                    ListenerURL = listenerURL
+                };
+
+                myOpenSubscriptionSessionResponse = await myConsumerRequestService.OpenConsumerRequestSessionAsync(textBoxHostName.Text, textBoxChannelId.Text, myOpenConsumerRequestSessionOptions, CancellationToken.None);
+            }
 
             //ISBM Adapter Response
             textBoxStatusCode.Text = myOpenSubscriptionSessionResponse.StatusCode.ToString();
@@ -71,7 +86,7 @@ namespace ISBM20ConsumerRequestTestCSharp
         {
             try
             {
-                string mediaType = textBoxMediaType.Text.Trim();
+                string mediaType = comboBoxMediaType.Text.Trim();
 
                 //Calling ISBM Adapter method
                 PostRequestResponse myPostRequestResponse;

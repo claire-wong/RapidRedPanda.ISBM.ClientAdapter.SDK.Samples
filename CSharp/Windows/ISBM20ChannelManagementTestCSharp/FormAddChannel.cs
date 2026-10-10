@@ -107,9 +107,9 @@ namespace ISBM20ChannelManagementTestCSharp
             }
 
             // Check if channed Type is correct
-            if (textBoxChannelType.Text.ToLower() == "publication" || textBoxChannelType.Text.ToLower() == "request")
+            if (comboBoxChannelType.Text.ToLower() == "publication" || comboBoxChannelType.Text.ToLower() == "request")
             {
-                channelType = textBoxChannelType.Text;
+                channelType = comboBoxChannelType.Text;
             }
             else
             {

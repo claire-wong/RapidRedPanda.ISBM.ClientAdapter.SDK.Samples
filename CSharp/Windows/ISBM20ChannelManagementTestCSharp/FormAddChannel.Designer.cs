@@ -40,7 +40,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.buttonDeleteToken = new System.Windows.Forms.Button();
             this.buttonCreateChannel = new System.Windows.Forms.Button();
-            this.textBoxChannelType = new System.Windows.Forms.TextBox();
+            this.comboBoxChannelType = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -176,16 +176,20 @@
             this.buttonCreateChannel.UseVisualStyleBackColor = true;
             this.buttonCreateChannel.Click += new System.EventHandler(this.buttonCreateChannel_Click);
             // 
-            // textBoxChannelType
+            // comboBoxChannelType
             // 
-            this.textBoxChannelType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.textBoxChannelType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxChannelType.Location = new System.Drawing.Point(155, 63);
-            this.textBoxChannelType.Name = "textBoxChannelType";
-            this.textBoxChannelType.Size = new System.Drawing.Size(135, 26);
-            this.textBoxChannelType.TabIndex = 144;
-            this.textBoxChannelType.TabStop = false;
-            this.textBoxChannelType.Text = "Publication";
+            this.comboBoxChannelType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.comboBoxChannelType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChannelType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxChannelType.Items.AddRange(new object[] {
+            "Publication",
+            "Request"});
+            this.comboBoxChannelType.Location = new System.Drawing.Point(155, 63);
+            this.comboBoxChannelType.Name = "comboBoxChannelType";
+            this.comboBoxChannelType.Size = new System.Drawing.Size(135, 26);
+            this.comboBoxChannelType.TabIndex = 144;
+            this.comboBoxChannelType.TabStop = false;
+            this.comboBoxChannelType.SelectedIndex = 0;
             // 
             // label2
             // 
@@ -231,7 +235,7 @@
             this.ClientSize = new System.Drawing.Size(730, 497);
             this.Controls.Add(this.textBoxDescription);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBoxChannelType);
+            this.Controls.Add(this.comboBoxChannelType);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonCreateChannel);
             this.Controls.Add(this.buttonDeleteToken);
@@ -266,7 +270,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button buttonDeleteToken;
         private System.Windows.Forms.Button buttonCreateChannel;
-        private System.Windows.Forms.TextBox textBoxChannelType;
+        private System.Windows.Forms.ComboBox comboBoxChannelType;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxDescription;
         private System.Windows.Forms.Label label3;
